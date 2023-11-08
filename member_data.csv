@@ -1,0 +1,102 @@
+first_name,last_name,id,street,city,state,zip,is_suspended
+Annetta,Addekin,399310330,9 Eliot Avenue,Seattle,WA,98104,True
+Evie,Alves,217438033,9263 Harbort Hill,Vancouver,WA,98664,True
+Shena,Avrahamov,506824727,87718 Old Gate Place,Olympia,WA,98516,True
+Grissel,Babber,615373002,34 Westerfield Avenue,Spokane,WA,99215,True
+Dasya,Baelde,580766682,7 1st Pass,Seattle,WA,98127,True
+Dita,Bahlmann,254315342,8 Green Ridge Trail,Spokane,WA,99205,False
+Stoddard,Bakhrushkin,660954553,408 Mccormick Drive,Tacoma,WA,98405,False
+Herby,Baldrick,670436577,9285 Bellgrove Way,Tacoma,WA,98405,False
+Nissa,Barraclough,376989555,341 Nevada Center,Seattle,WA,98115,False
+Fredric,Bayles,731385234,37 Algoma Lane,Spokane,WA,99220,False
+Ulick,Beldham,619977636,55 Coolidge Plaza,Lakewood,WA,98498,True
+Abraham,Benoist,832102636,3869 Tennessee Road,Seattle,WA,98115,True
+Kalil,Bessent,923484981,90 Nobel Street,Seattle,WA,98104,False
+Michell,Booy,182191072,0 Fulton Circle,Tacoma,WA,98464,False
+Worthy,Briscoe,395454191,26754 Mandrake Circle,Olympia,WA,98506,True
+Paton,Buglar,662917561,5781 Acker Road,Spokane,WA,99205,False
+Delmor,Capewell,581355770,62533 Toban Alley,Spokane,WA,99215,True
+Ruggiero,Carlaw,597332467,7354 Fuller Trail,Seattle,WA,98109,True
+Jeralee,Cassels,429621809,16279 Aberg Street,Tacoma,WA,98442,False
+Luise,Cassie,621114628,5678 Hudson Pass,Tacoma,WA,98417,True
+Neall,Cheke,401186429,7482 Dahle Crossing,Lakewood,WA,98498,True
+Evy,Cleen,151526393,1 Buena Vista Lane,Spokane,WA,99260,False
+Rafael,Cockayne,853953302,96731 Gina Circle,Spokane,WA,99260,False
+Phillie,Currao,852924092,982 Mifflin Way,Tacoma,WA,98447,True
+Lew,Donoghue,943264353,832 Starling Alley,Seattle,WA,98121,True
+Harald,Durtnell,833063711,94 Anhalt Junction,Seattle,WA,98121,False
+Charmion,Emanueli,762733687,85232 Trailsway Center,Tacoma,WA,98411,False
+Carmine,Eric,577455967,315 Schmedeman Junction,Spokane,WA,99260,True
+Tymothy,Etuck,310022779,31 Canary Place,Vancouver,WA,98682,False
+Annetta,Fearenside,201212474,8 Sycamore Center,Olympia,WA,98516,True
+Clim,Fleming,633410238,93184 Pepper Wood Terrace,Yakima,WA,98907,False
+Philomena,Franzelini,525526256,99287 Grover Street,Kent,WA,98042,True
+Antonio,Gladstone,725747550,8 Pepper Wood Street,Spokane,WA,99252,False
+Errick,Gobolos,782356000,3 Reindahl Plaza,Tacoma,WA,98447,False
+Malia,Gooderick,767026186,1313 Dawn Junction,Seattle,WA,98115,True
+Ardelle,Gostyke,628927427,4 Esker Terrace,Tacoma,WA,98481,False
+Torr,Greenroa,554356318,45 North Junction,Lakewood,WA,98498,False
+Lira,Grevel,493803035,5 Ridgeview Drive,Spokane,WA,99252,False
+Melli,Haliburn,456048405,2 Maple Trail,Spokane,WA,99260,False
+Alford,Hansberry,942503478,40 Kim Lane,Seattle,WA,98166,True
+Annette,Humbert,912890644,19 Reinke Junction,Spokane,WA,99215,True
+Morey,Iley,556483535,1738 Annamark Court,Seattle,WA,98185,True
+Abelard,Jacqueminot,747480792,7 Nancy Junction,Spokane,WA,99252,False
+Maia,Jaimez,853521701,487 Sullivan Crossing,Tacoma,WA,98447,False
+Otho,Jennick,671097398,9409 Amoth Avenue,Seattle,WA,98140,False
+Wallace,Kendrick,117592879,0 Summerview Alley,Tacoma,WA,98464,True
+Dav,Kermode,246035590,6 South Drive,Tacoma,WA,98464,True
+Lib,Kernocke,249863596,09 Prairieview Way,Vancouver,WA,98664,True
+Tabby,Keynd,578657902,23 Golf View Park,Seattle,WA,98133,True
+Coriss,Knappitt,222145515,44 Oak Valley Circle,Kent,WA,98042,True
+Leodora,Knyvett,734063709,69 Clarendon Court,Seattle,WA,98115,False
+Joby,Kornas,897752684,55 Nancy Way,Spokane,WA,99205,False
+Amaleta,Krelle,435016012,5 Cody Drive,Seattle,WA,98140,False
+Frankie,Le feuvre,695912837,243 Nevada Circle,Seattle,WA,98115,False
+Sigismund,Levensky,762085273,24148 Shasta Avenue,Vancouver,WA,98687,False
+Lissa,M'Barron,807349302,257 Dennis Crossing,Tacoma,WA,98405,False
+Rani,M'Barron,551809017,83931 Colorado Terrace,Seattle,WA,98175,False
+Otho,MacGillivrie,204065452,176 Village Green Court,Bellevue,WA,98008,True
+Jill,Mandel,909768354,0527 Hudson Circle,Tacoma,WA,98442,True
+Elonore,Manhood,806166480,922 Schlimgen Street,Tacoma,WA,98424,False
+Derry,Manktelow,280100237,0 Hintze Park,Olympia,WA,98516,True
+Odo,Mansfield,652723419,7280 Briar Crest Point,Tacoma,WA,98464,False
+Jonell,Maven,368266278,81 Havey Avenue,Tacoma,WA,98447,False
+Dael,Mayor,845268289,807 Coleman Lane,Tacoma,WA,98464,False
+Caty,McIllroy,763384717,298 Sage Plaza,Kent,WA,98042,False
+Lonnie,McMenemy,854511329,1022 Rowland Pass,Seattle,WA,98109,False
+Florentia,Olczak,897928276,1934 Hoard Court,Tacoma,WA,98481,True
+Loretta,Parncutt,675870022,4766 Oak Hill,Vancouver,WA,98682,True
+Deirdre,Peel,693162084,2196 Dunning Plaza,Yakima,WA,98907,True
+Crawford,Pithcock,930595497,28 Milwaukee Circle,Seattle,WA,98166,False
+Davis,Porkiss,827034115,276 Prairie Rose Terrace,Everett,WA,98206,False
+Babs,Purdy,858932758,70 Vidon Plaza,Olympia,WA,98506,False
+Athena,Risby,378745142,15 Riverside Way,Spokane,WA,99205,False
+Ole,Rupprecht,429111074,6338 Warbler Pass,Spokane,WA,99220,False
+Stephen,Salaman,852964871,0 Scofield Alley,Olympia,WA,98506,False
+Jeniece,Santacrole,926673519,79377 Beilfuss Park,Tacoma,WA,98481,True
+Linet,Sarfati,706183921,3153 Lakeland Pass,Seattle,WA,98195,True
+Barbra,Sartin,231565847,05099 Shoshone Park,Seattle,WA,98148,True
+Salaidh,Sawyer,359106626,34 Luster Road,Tacoma,WA,98411,False
+Toby,Scoone,343900981,586 Grayhawk Terrace,Tacoma,WA,98405,True
+Trude,Shilburne,681759273,0602 Hauk Pass,Seattle,WA,98158,True
+Marlon,Shortall,770343367,957 Pawling Place,Tacoma,WA,98424,False
+Geraldine,Simison,388789457,4528 Washington Junction,Olympia,WA,98516,False
+Barnebas,Slocomb,836813675,62 Buena Vista Alley,Vancouver,WA,98682,True
+Nowell,Sottell,971447942,1503 Transport Alley,Tacoma,WA,98442,False
+Adrianna,Tapscott,338776263,4213 Browning Court,Seattle,WA,98115,False
+Lory,Tapsfield,916826341,1412 Eastwood Road,Seattle,WA,98109,False
+Isa,Thorlby,549437574,0 Shelley Trail,Tacoma,WA,98464,True
+Nerta,Tillyer,251717751,638 Ryan Court,Vancouver,WA,98664,False
+Britney,Todeo,795243823,81 Crescent Oaks Road,Tacoma,WA,98481,True
+Maritsa,Tomei,387466422,49065 Almo Place,Spokane,WA,99210,False
+Rosalyn,Twentyman,404057009,92 Sunnyside Circle,Tacoma,WA,98464,False
+Britte,Unstead,550497270,29089 Macpherson Parkway,Seattle,WA,98175,False
+Andriana,Van Zon,869591829,32895 Magdeline Road,Spokane,WA,99252,True
+Jenelle,Vanyutin,128157724,130 Karstens Pass,Spokane,WA,99205,True
+Rollins,Verick,936488005,42739 Carey Point,Seattle,WA,98115,False
+Herve,Volette,246606623,80 Barby Drive,Seattle,WA,98185,True
+Benton,Winspare,556124672,80857 Forster Point,Spokane,WA,99205,False
+Griz,Withrop,235751220,54130 Jenna Hill,Vancouver,WA,98664,True
+Martelle,Wreiford,257852334,81 Maple Wood Road,Tacoma,WA,98405,False
+Mordecai,Yewdell,215744754,18 Doe Crossing Street,Seattle,WA,98133,False
