@@ -9,7 +9,7 @@ class Provider:
         self.zip = zip
 
     def __str__(self):
-        return f"{self.first_name} {self.last_name}\n{self.id}\n{self.street}\n{self.city}\n{self.state}\n{self.zip}"
+        return f"Name: {self.first_name} {self.last_name}\nProvider ID: {self.id}\nStreet: {self.street}\nCity: {self.city}\nState: {self.state}\nZipcode: {self.zip}"
 
     def __iter__(self):
         yield self.first_name
