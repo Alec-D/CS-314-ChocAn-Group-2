@@ -40,18 +40,18 @@ def new_service(new_provider, new_member, yesterday):
 
 
 def test_load_member_df(file_system):
-    file_system.load_member_df()
-    assert file_system.member_df is not None
+    file_system._load_member_df()
+    assert file_system._member_df is not None
 
 
 def test_load_provider_df(file_system):
-    file_system.load_provider_df()
-    assert file_system.provider_df is not None
+    file_system._load_provider_df()
+    assert file_system._provider_df is not None
 
 
 def test_load_service_df(file_system):
-    file_system.load_service_df()
-    assert file_system.service_directory_df is not None
+    file_system._load_service_df()
+    assert file_system._service_directory_df is not None
 
 
 # Geraldine,Simison,388789457,4528 Washington Junction,Olympia,WA,98516,false
@@ -94,6 +94,11 @@ def test_add_member(file_system, new_member):
     assert file_system.get_member_by_id(123456789) is not None
 
 
+def test_add_member_fail(file_system):
+    with pytest.raises(TypeError):
+        file_system.add_member("Steve")
+
+
 def test_remove_member(file_system, new_member):
     file_system.add_member(new_member)
     file_system.remove_member(new_member)
@@ -119,7 +124,7 @@ def test_remove_provider(file_system, new_provider):
 def test_document_service(file_system, new_service, yesterday):
     file_system.document_service(new_service)
 
-    df = file_system.all_services_df
+    df = file_system._all_services_df
     assert len(df.index) > 0
     assert df[df["member_id"] == 123456789].iloc[0]["date_of_service"] == yesterday
     assert df[df["member_id"] == 123456789].iloc[0]["current_time"] != "00:00:00"
@@ -135,7 +140,7 @@ def test_document_service(file_system, new_service, yesterday):
     assert df[df["member_id"] == 123456789].iloc[0]["comments"] == "I splinted his arm"
     assert df[df["member_id"] == 123456789].iloc[0]["fee"] == 200.00
 
-    df = file_system.get_member_report_info(new_service.member_id)
+    df = file_system._get_member_report_info(new_service.member_id)
     assert len(df.index) == 1
     assert df.loc[df.provider_last_name == "Fart"].iloc[0]["date_of_service"] == yesterday
     assert df[df["provider_last_name"] == "Fart"].iloc[0]["provider_first_name"] == "Steve"
@@ -144,7 +149,7 @@ def test_document_service(file_system, new_service, yesterday):
 
     os.remove("member_reports/123456789.csv")
 
-    df = file_system.get_provider_report_info(new_service.provider_id)
+    df = file_system._get_provider_report_info(new_service.provider_id)
     assert len(df.index) == 1
     assert df[df["member_id"] == 123456789].iloc[0]["date_of_service"] == yesterday
     assert df[df["member_id"] == 123456789].iloc[0]["current_date"] != yesterday

@@ -1,5 +1,12 @@
 class Provider:
-    def __init__(self, first_name, last_name, id, street, city, state, zip):
+    def __init__(self,
+                 first_name: str,
+                 last_name: str,
+                 id: str | int,
+                 street: str,
+                 city: str,
+                 state: str,
+                 zip: str | int):
         self.first_name = first_name
         self.last_name = last_name
         self.id = id
@@ -9,7 +16,12 @@ class Provider:
         self.zip = zip
 
     def __str__(self):
-        return f"Name: {self.first_name} {self.last_name}\nProvider ID: {self.id}\nStreet: {self.street}\nCity: {self.city}\nState: {self.state}\nZipcode: {self.zip}"
+        return (f"Name: {self.first_name} {self.last_name}\n"
+                f"Provider ID: {self.id}\n"
+                f"Street: {self.street}\n"
+                f"City: {self.city}\n"
+                f"State: {self.state}\n"
+                f"Zipcode: {self.zip}")
 
     def __iter__(self):
         yield self.first_name
