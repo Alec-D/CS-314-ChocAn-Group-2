@@ -73,10 +73,12 @@ class Member:
                 max_id = max_id - 1
                 self.build_member()
 
-    def edit_member(current_member):
+    def edit_member(self):
         print("Current Member Data:")
-        print(current_member)
-        choice = input("Enter field to edit: First Name, Last Name, Street Address, City, State, Zip, Status")
+        print(self)
+        current_member = self
+
+        choice = input("Enter field to edit: First Name, Last Name, Street Address, City, State, Zip, Status: ")
         match choice:
             case 'First Name':
                 current_member.first_name = input("Enter New First Name: ")
@@ -114,6 +116,19 @@ class Member:
                         current_member.is_suspended = False
                 else:
                     print("No change in status entered")
+        print("\n\nNew Member Data: ")
+        print(current_member)
+        change_accepted = input("If this new information is correct, enter y. \nIf it is wrong, enter n: ")
+        while change_accepted != 'y' and change_status != 'n':
+            print("please enter y or n.")
+            change_accepted = input("y or n: ")
+        if change_accepted == 'y':
+            self = current_member
+            #send to file system
+        else:
+            print("Restarting Member Edits")
+            self.edit_member(self)
+
 
     def check_status(self):
         status = self.is_suspended
@@ -123,3 +138,5 @@ class Member:
         return self.id
     
 
+m1 = Member('Nathalie', 'Owen', 111111111, '1612 Grand St', 'Alameda', 'CA', 94501, False)
+m1.edit_member()
