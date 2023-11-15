@@ -170,7 +170,7 @@ class FileSystem:
         if not isinstance(member, Member):
             raise TypeError("member must be of type Member")
 
-        self._member_df.loc[len(self._member_df.index)] = list(member)
+        self._member_df.loc[len(self._member_df.index)] = [n[1] for n in member.__dict__.items() if n[0] != "name"]
 
     def update_member(self, member: Member) -> None:
         if not isinstance(member, Member):
@@ -184,7 +184,7 @@ class FileSystem:
         if tmp.empty:
             raise ValueError("Member not found")
 
-        self._member_df.loc[tmp.index[0]] = list(member)
+        self._member_df.loc[tmp.index[0]] = [n[1] for n in member.__dict__.items() if n[0] != "name"]
 
     def remove_member(self, member: Member) -> None:
         if self._member_df is None:
@@ -220,7 +220,7 @@ class FileSystem:
         if tmp.empty:
             raise ValueError("Provider not found")
 
-        self._provider_df.loc[tmp.index[0]] = list(provider)
+        self._provider_df.loc[tmp.index[0]] = [n[1] for n in provider.__dict__.items() if n[0] != "name"]
 
     def get_provider_by_id(self, mem_id: int | str) -> Provider | None:
         if isinstance(mem_id, str):
@@ -246,7 +246,7 @@ class FileSystem:
         if not isinstance(provider, Provider):
             raise TypeError("provider must be of type Provider")
 
-        self._provider_df.loc[len(self._provider_df.index)] = list(provider)
+        self._provider_df.loc[len(self._provider_df.index)] = [n[1] for n in provider.__dict__.items() if n[0] != "name"]
 
     def remove_provider(self, provider: Provider) -> None:
         if self._provider_df is None:
@@ -360,7 +360,7 @@ class FileSystem:
         if self._all_services_df is None:
             self._load_all_services_df()
 
-        self._all_services_df.loc[len(self._all_services_df.index)] = list(service)
+        self._all_services_df.loc[len(self._all_services_df.index)] = [n for n in service.__dict__.values()]
 
     def get_member_report_as_string(self, mem_id: int | str) -> str | None:
         member = self.get_member_by_id(mem_id)

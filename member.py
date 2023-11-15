@@ -25,7 +25,6 @@ class Member:
             self.is_suspended = is_suspended
             self.name = first_name + " " + last_name
 
-
     def __iter__(self):
         yield self.name
         yield self.id
@@ -138,5 +137,5 @@ class Member:
         return self.id
     
 
-m1 = Member('Nathalie', 'Owen', 111111111, '1612 Grand St', 'Alameda', 'CA', 94501, False)
-m1.edit_member()
+# m1 = Member('Nathalie', 'Owen', 111111111, '1612 Grand St', 'Alameda', 'CA', 94501, False)
+#m1.edit_member()
