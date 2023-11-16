@@ -53,15 +53,15 @@ class Provider:
         tmp.name = full_name[0:25]
         tmp.id = input("ID: ")
         tmp.street = input("Street Address: ")
-        tmp.street = self.street[0:25]
+        tmp.street = tmp.street[0:25]
         tmp.city = input("City: ")
-        tmp.city = self.city[0:14]
+        tmp.city = tmp.city[0:14]
         tmp.state = input("State: ")
         valid_state = verification_functions.check_state(tmp.state)
         while valid_state  is False:
             print("Invalid State. Enter 2 letter state abbreviation: ")
             tmp.state = input("State: ")
-            valid_state = verification_functions.check_state(self.state)
+            valid_state = verification_functions.check_state(tmp.state)
         tmp.zip = input("Zip: ")
         while tmp.zip < 1 or tmp.zip > 99999:
             print("Invalid Zip Code")
@@ -75,7 +75,7 @@ class Provider:
             case 2:
                 print("Starting data entry for new provider again")
                 Provider.build_provider()
-                
+
     def edit_provider(self):
         print("Current Provider Data:")
         print(self)
