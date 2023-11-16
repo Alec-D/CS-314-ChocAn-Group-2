@@ -16,10 +16,10 @@ def test_edit_member_name(monkeypatch, capsys, new_member):
     assert new_member.first_name == 'Changed'
 
 
-def test_build_member(monkeypatch, capsys, new_member):
+def test_build_member(monkeypatch, capsys):
     inputs = iter(['Test', 'Test', '1234 Test St', 'Test City', 'CA', 12345, 1])
     monkeypatch.setattr('builtins.input', lambda prompt: next(inputs))
-    new_member.build_member()
+    new_member = Member.build_member()
     captured = capsys.readouterr()
 
     assert new_member.first_name == 'Test'

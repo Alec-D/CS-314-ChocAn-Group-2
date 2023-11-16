@@ -2,6 +2,7 @@ import verification_functions
 global max_id
 max_id = 971447942
 
+
 class Member:
     def __init__(self, first_name, last_name, id, street, city, state, zip, is_suspended):
         if id == 0:
@@ -37,40 +38,43 @@ class Member:
     def __str__(self):
         return f"Name: {self.first_name} {self.last_name}\nMember ID: {self.id}\nStreet: {self.street}\nCity: {self.city}\nState: {self.state}\nZipcode: {self.zip}"
     
-    def build_member(self):
-        self.first_name = input("First name: ")
-        self.last_name = input("Last Name: ")
-        full_name = self.first_name + " " + self.last_name
-        self.name = full_name[0:25]
+    @staticmethod
+    def build_member() -> 'Member':
+        tmp = Member('', '', 0, '', '', '', 0, False)
+        tmp.first_name = input("First name: ")
+        tmp.last_name = input("Last Name: ")
+        full_name = tmp.first_name + " " + tmp.last_name
+        tmp.name = full_name[0:25]
         global max_id
         max_id = max_id + 1
-        self.id = max_id
-        self.street = input("Street Address: ")
-        self.street = self.street[0:25]
-        self.city = input("City: ")
-        self.city = self.city[0:14]
-        self.state = input("State: ")
-        valid_state = verification_functions.check_state(self.state)
-        while valid_state  is False:
+        tmp.id = max_id
+        tmp.street = input("Street Address: ")
+        tmp.street = tmp.street[0:25]
+        tmp.city = input("City: ")
+        tmp.city = tmp.city[0:14]
+        tmp.state = input("State: ")
+        valid_state = verification_functions.check_state(tmp.state)
+        while valid_state is False:
             print("Invalid State. Enter 2 letter state abbreviation: ")
-            self.state = input("State: ")
-            valid_state = verification_functions.check_state(self.state)
-        self.zip = int(input("Zip: "))
-        while self.zip < 1 or self.zip > 99999:
+            tmp.state = input("State: ")
+            valid_state = verification_functions.check_state(tmp.state)
+        tmp.zip = int(input("Zip: "))
+        while tmp.zip < 1 or tmp.zip > 99999:
             print("Invalid Zip Code")
-            self.zip = int(input("Zip: "))
-        self.is_suspended = False
+            tmp.zip = int(input("Zip: "))
+        tmp.is_suspended = False
         print("If the information below is correct, press 1 to save the member data.")
         print("If the information is not correct, press 2 to re-enter the member data. ")
         save = int(input("1 or 2: "))
         match save:
             case 1:
                 #send to file system
+                return tmp
                 pass
             case 2:
                 print("Starting data entry for new member again")
                 max_id = max_id - 1
-                self.build_member()
+                Member.build_member()
 
     def edit_member(self):
         print("Current Member Data:")
@@ -126,8 +130,7 @@ class Member:
             #send to file system
         else:
             print("Restarting Member Edits")
-            self.edit_member(self)
-
+            self.edit_member()
 
     def check_status(self):
         status = self.is_suspended
