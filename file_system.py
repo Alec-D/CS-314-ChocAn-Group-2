@@ -130,8 +130,7 @@ class FileSystem:
 
         # build df from all services that contains dos, current date, current time, member fname, mem lname member id, service code, fee
         left_df = self._all_services_df[self._all_services_df["provider_id"] == prov_id]
-        left_df = left_df[["date_of_service", "current_date", "current_time", "member_first_name", "member_last_name",
-                         "member_id", "service_code", "fee"]]
+        left_df = left_df[["date_of_service", "current_date", "current_time", "member_id", "service_code", "fee"]]
 
         right_df = self._member_df[["id", "first_name", "last_name"]]
 
@@ -394,7 +393,7 @@ class FileSystem:
         if self._all_services_df is None:
             self._load_all_services_df()
 
-        self._all_services_df.loc[len(self._all_services_df.index)] = [n for n in service.__dict__.values()]
+        self._all_services_df.loc[len(self._all_services_df.index)] = list(service)
 
     def get_member_report_as_string(self, mem_id: int | str) -> str | None:
         member = self.get_member_by_id(mem_id)
@@ -407,7 +406,7 @@ class FileSystem:
 
         for row in df.iterrows():
             mem_str += f"\tDOS: {row[1]['date_of_service']}\n"
-            mem_str += f"\tProvider Name: {row[1]['provider_first_name']} {row[1]['provider_last_name']}\n"
+            mem_str += f"\tProvider Name: {row[1]['first_name']} {row[1]['last_name']}\n"
             mem_str += f"\tService: {row[1]['service_name']}\n\n"
 
         return mem_str
@@ -429,7 +428,7 @@ class FileSystem:
             prov_str += f"\tDOS: {row[1]['date_of_service']}\n"
             prov_str += f"\tDate Processed: {row[1]['current_date']}\n"
             prov_str += f"\tTime Processed: {row[1]['current_time']}\n"
-            prov_str += f"\tMember: {row[1]['member_first_name']} {row[1]['member_last_name']}\n"
+            prov_str += f"\tMember: {row[1]['first_name']} {row[1]['last_name']}\n"
             prov_str += f"\tMember ID: {row[1]['member_id']}\n"
             prov_str += f"\tService Code: {row[1]['service_code']}\n"
             prov_str += f"\tFee: {row[1]['fee']}\n\n"
@@ -458,11 +457,13 @@ class FileSystem:
 
     def get_manager_report_as_string(self) -> str | None:
         df = self._all_services_df
-        df = df.groupby(["provider_first_name", "provider_last_name"])
+        df = df.groupby(["provider_id"])
 
         man_str = "Weekly Summary Report\n\n"
 
-        for names, prov_df in df:
+        for ids, prov_df in df:
+            tmp_df = self._provider_df[self._provider_df["id"] == ids]
+            names = tmp_df.iloc[0][["first_name", "last_name"]].to_list()
             man_str += f"Provider: {names[0]} {names[1]}\n"
             man_str += f"Total Consultations: {len(prov_df.index)}\n"
             man_str += f"Total Fees: {prov_df.fee.sum()}\n\n"

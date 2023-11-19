@@ -16,10 +16,13 @@ def main():
     file_system.document_service(tmp_serv)
 
     print("Member Report")
-    print(file_system._get_member_report_info(tmp_mem.id))
-    print(len(file_system._get_member_report_info(tmp_mem.id)))
+    print(file_system.get_member_report_as_string(tmp_mem.id))
     print("Provider Report")
-    print(file_system._get_provider_report_info(tmp_prov.id))
+    print(file_system.get_provider_report_as_string(tmp_prov.id))
+    print("ETF Report")
+    print(file_system.get_etf_report_as_string(tmp_prov.id))
+    print("Summary Report")
+    print(file_system.get_manager_report_as_string())
 
 
 

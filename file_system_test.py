@@ -91,7 +91,7 @@ def test_get_member_by_id_empty(empty_file_system):
 
 def test_add_member(file_system, new_member):
     file_system.add_member(new_member)
-    assert file_system.get_member_by_id(123456789) is not None
+    assert file_system.get_member_by_id(123456780) is not None
 
 
 def test_add_member_fail(file_system):
@@ -102,7 +102,7 @@ def test_add_member_fail(file_system):
 def test_remove_member(file_system, new_member):
     file_system.add_member(new_member)
     file_system.remove_member(new_member)
-    assert file_system.get_member_by_id(123456789) is None
+    assert file_system.get_member_by_id(123456780) is None
 
 
 def test_remove_member_fail(file_system, new_member):
@@ -132,11 +132,7 @@ def test_document_service(file_system, new_service, new_member, new_provider, ye
     assert df[df["member_id"] == 123456780].iloc[0]["current_time"] != "00:00:00"
     assert df[df["member_id"] == 123456780].iloc[0]["date_of_service"] == yesterday
     assert df[df["member_id"] == 123456780].iloc[0]["provider_id"] == 123456789
-    assert df[df["member_id"] == 123456780].iloc[0]["provider_first_name"] == "Steve"
-    assert df[df["member_id"] == 123456780].iloc[0]["provider_last_name"] == "Provider"
     assert df[df["member_id"] == 123456780].iloc[0]["member_id"] == 123456780
-    assert df[df["member_id"] == 123456780].iloc[0]["member_first_name"] == "Steve"
-    assert df[df["member_id"] == 123456780].iloc[0]["member_last_name"] == "Patient"
     assert df[df["member_id"] == 123456780].iloc[0]["service_code"] == 123456
     assert df[df["member_id"] == 123456780].iloc[0]["service_name"] == "splinting"
     assert df[df["member_id"] == 123456780].iloc[0]["comments"] == "I splinted his arm"
@@ -160,13 +156,37 @@ def test_document_service(file_system, new_service, new_member, new_provider, ye
     assert df[df["member_id"] == 123456780].iloc[0]["service_code"] == 123456
     assert df[df["member_id"] == 123456780].iloc[0]["fee"] == 200.00
 
-def test_get_member_report_as_string(file_system, new_member, new_service, yesterday):
+def test_get_member_report_as_string(file_system, new_member, new_provider, new_service, yesterday):
     file_system.add_member(new_member)
+    file_system.add_provider(new_provider)
     file_system.document_service(new_service)
     report = file_system.get_member_report_as_string(new_service.member_id)
-    assert report == f"Name: Steve Fart\nMember ID: 123456789\nStreet: 1234 Fart St\nCity: Fart City\nState: FA\nZipcode: 12345\n\tDOS: {yesterday}\n\tProvider Name: Steve Fart\n\tService: splinting\n\n"
+    assert report == f"Name: Steve Patient\nMember ID: 123456780\nStreet: 1234 Test St\nCity: Test City\nState: FA\nZipcode: 12345\n\tDOS: {yesterday}\n\tProvider Name: Steve Provider\n\tService: splinting\n\n"
 
 
+def test_get_provider_report_as_string(file_system, new_member, new_provider, new_service, yesterday):
+    file_system.add_member(new_member)
+    file_system.add_provider(new_provider)
+    file_system.document_service(new_service)
+    current_time = datetime.datetime.now().strftime("%H:%M:%S")
+    current_date = datetime.date.today().strftime("%m-%d-%Y")
+    report = file_system.get_provider_report_as_string(new_service.provider_id)
+    assert report == (f'Name: Steve Provider\n'
+                      f'Provider ID: 123456789\n'
+                      f'Street: 1234 Test St\n'
+                      f'City: Test City\n'
+                      f'State: FA\n'
+                      f'Zipcode: 12345\n'
+                             f'\tDOS: 11-17-2023\n'
+                             f'\tDate Processed: {current_date}\n'
+                             f'\tTime Processed: {current_time}\n'
+                             f'\tMember: Steve Patient\n'
+                             f'\tMember ID: 123456780\n'
+                             f'\tService Code: 123456\n'
+                             f'\tFee: 200.0\n'
+                             f'\n'
+                      f'Total Consultations: 1\n'
+                      f'Total Fees: 200.0\n')
 def test_update_member(file_system, new_member):
     file_system.add_member(new_member)
     new_member.first_name = "Bob"
