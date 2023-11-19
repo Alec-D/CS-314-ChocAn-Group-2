@@ -54,11 +54,7 @@ class Service:
         yield self.current_time
         yield self.date_of_service
         yield self.provider_id
-        yield self.provider_first_name
-        yield self.provider_last_name
         yield self.member_id
-        yield self.member_first_name
-        yield self.member_last_name
         yield self.service_code
         yield self.service_name
         yield self.comments

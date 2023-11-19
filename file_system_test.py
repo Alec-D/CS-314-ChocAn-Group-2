@@ -21,12 +21,12 @@ def empty_file_system():
 
 @pytest.fixture
 def new_member():
-    return Member("Steve", "Fart", 123456789, "1234 Fart St", "Fart City", "FA", 12345, False)
+    return Member("Steve", "Patient", 123456780, "1234 Test St", "Test City", "FA", 12345, False)
 
 
 @pytest.fixture
 def new_provider():
-    return Provider("Steve", "Fart", 123456789, "1234 Fart St", "Fart City", "FA", 12345)
+    return Provider("Steve", "Provider", 123456789, "1234 Test St", "Test City", "FA", 12345)
 
 
 @pytest.fixture
@@ -121,47 +121,44 @@ def test_remove_provider(file_system, new_provider):
     assert file_system.get_provider_by_id(123456789) is None
 
 
-def test_document_service(file_system, new_service, yesterday):
+def test_document_service(file_system, new_service, new_member, new_provider, yesterday):
+    file_system.add_member(new_member)
+    file_system.add_provider(new_provider)
     file_system.document_service(new_service)
 
     df = file_system._all_services_df
     assert len(df.index) > 0
-    assert df[df["member_id"] == 123456789].iloc[0]["date_of_service"] == yesterday
-    assert df[df["member_id"] == 123456789].iloc[0]["current_time"] != "00:00:00"
-    assert df[df["member_id"] == 123456789].iloc[0]["date_of_service"] == yesterday
-    assert df[df["member_id"] == 123456789].iloc[0]["provider_id"] == 123456789
-    assert df[df["member_id"] == 123456789].iloc[0]["provider_first_name"] == "Steve"
-    assert df[df["member_id"] == 123456789].iloc[0]["provider_last_name"] == "Fart"
-    assert df[df["member_id"] == 123456789].iloc[0]["member_id"] == 123456789
-    assert df[df["member_id"] == 123456789].iloc[0]["member_first_name"] == "Steve"
-    assert df[df["member_id"] == 123456789].iloc[0]["member_last_name"] == "Fart"
-    assert df[df["member_id"] == 123456789].iloc[0]["service_code"] == 123456
-    assert df[df["member_id"] == 123456789].iloc[0]["service_name"] == "splinting"
-    assert df[df["member_id"] == 123456789].iloc[0]["comments"] == "I splinted his arm"
-    assert df[df["member_id"] == 123456789].iloc[0]["fee"] == 200.00
+    assert df[df["member_id"] == 123456780].iloc[0]["date_of_service"] == yesterday
+    assert df[df["member_id"] == 123456780].iloc[0]["current_time"] != "00:00:00"
+    assert df[df["member_id"] == 123456780].iloc[0]["date_of_service"] == yesterday
+    assert df[df["member_id"] == 123456780].iloc[0]["provider_id"] == 123456789
+    assert df[df["member_id"] == 123456780].iloc[0]["provider_first_name"] == "Steve"
+    assert df[df["member_id"] == 123456780].iloc[0]["provider_last_name"] == "Provider"
+    assert df[df["member_id"] == 123456780].iloc[0]["member_id"] == 123456780
+    assert df[df["member_id"] == 123456780].iloc[0]["member_first_name"] == "Steve"
+    assert df[df["member_id"] == 123456780].iloc[0]["member_last_name"] == "Patient"
+    assert df[df["member_id"] == 123456780].iloc[0]["service_code"] == 123456
+    assert df[df["member_id"] == 123456780].iloc[0]["service_name"] == "splinting"
+    assert df[df["member_id"] == 123456780].iloc[0]["comments"] == "I splinted his arm"
+    assert df[df["member_id"] == 123456780].iloc[0]["fee"] == 200.00
 
     df = file_system._get_member_report_info(new_service.member_id)
     assert len(df.index) == 1
-    assert df.loc[df.provider_last_name == "Fart"].iloc[0]["date_of_service"] == yesterday
-    assert df[df["provider_last_name"] == "Fart"].iloc[0]["provider_first_name"] == "Steve"
-    assert df[df["provider_last_name"] == "Fart"].iloc[0]["provider_last_name"] == "Fart"
-    assert df[df["provider_last_name"] == "Fart"].iloc[0]["service_name"] == "splinting"
-
-    os.remove("member_reports/123456789.csv")
+    assert df[df["last_name"] == "Provider"].iloc[0]["date_of_service"] == yesterday
+    assert df[df["last_name"] == "Provider"].iloc[0]["first_name"] == "Steve"
+    assert df[df["last_name"] == "Provider"].iloc[0]["last_name"] == "Provider"
+    assert df[df["last_name"] == "Provider"].iloc[0]["service_name"] == "splinting"
 
     df = file_system._get_provider_report_info(new_service.provider_id)
     assert len(df.index) == 1
-    assert df[df["member_id"] == 123456789].iloc[0]["date_of_service"] == yesterday
-    assert df[df["member_id"] == 123456789].iloc[0]["current_date"] != yesterday
-    assert df[df["member_id"] == 123456789].iloc[0]["current_time"] != "00:00:00"
-    assert df[df["member_id"] == 123456789].iloc[0]["member_first_name"] == "Steve"
-    assert df[df["member_id"] == 123456789].iloc[0]["member_last_name"] == "Fart"
-    assert df[df["member_id"] == 123456789].iloc[0]["member_id"] == 123456789
-    assert df[df["member_id"] == 123456789].iloc[0]["service_code"] == 123456
-    assert df[df["member_id"] == 123456789].iloc[0]["fee"] == 200.00
-
-    os.remove("provider_reports/123456789.csv")
-
+    assert df[df["member_id"] == 123456780].iloc[0]["date_of_service"] == yesterday
+    assert df[df["member_id"] == 123456780].iloc[0]["current_date"] != yesterday
+    assert df[df["member_id"] == 123456780].iloc[0]["current_time"] != "00:00:00"
+    assert df[df["member_id"] == 123456780].iloc[0]["first_name"] == "Steve"
+    assert df[df["member_id"] == 123456780].iloc[0]["last_name"] == "Patient"
+    assert df[df["member_id"] == 123456780].iloc[0]["member_id"] == 123456780
+    assert df[df["member_id"] == 123456780].iloc[0]["service_code"] == 123456
+    assert df[df["member_id"] == 123456780].iloc[0]["fee"] == 200.00
 
 def test_get_member_report_as_string(file_system, new_member, new_service, yesterday):
     file_system.add_member(new_member)
@@ -169,15 +166,12 @@ def test_get_member_report_as_string(file_system, new_member, new_service, yeste
     report = file_system.get_member_report_as_string(new_service.member_id)
     assert report == f"Name: Steve Fart\nMember ID: 123456789\nStreet: 1234 Fart St\nCity: Fart City\nState: FA\nZipcode: 12345\n\tDOS: {yesterday}\n\tProvider Name: Steve Fart\n\tService: splinting\n\n"
 
-    os.remove("member_reports/123456789.csv")
-    os.remove("provider_reports/123456789.csv")
-
 
 def test_update_member(file_system, new_member):
     file_system.add_member(new_member)
     new_member.first_name = "Bob"
     file_system.update_member(new_member)
-    assert file_system.get_member_by_id(123456789).first_name == "Bob"
+    assert file_system.get_member_by_id(123456780).first_name == "Bob"
 
 
 def test_update_provider(file_system, new_provider):

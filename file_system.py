@@ -6,6 +6,28 @@ import os
 
 
 class FileSystem:
+    """
+    Class to handle all file system operations
+
+    Will lazily initialize all dataframes when needed by the program. To ensure that all data is saved, call save_dirs()
+    before exiting the program.
+
+    Example Usage:
+
+    >>> file_system = FileSystem("member_data.csv", "provider_data.csv", "service_dir.csv", "employee_data.csv")
+    >>> file_system.add_member(Member("Steve", "Test", 123456789, "1234 Test St", "Test City", "CA", 12345, False))
+    >>> file_system.save_dirs()
+
+    :ivar _member_info: path to member data csv
+    :ivar _provider_info: path to provider data csv
+    :ivar _service_directory: path to service directory csv
+    :ivar _employee_directory: path to employee directory csv
+    :ivar _member_df: dataframe containing member data
+    :ivar _provider_df: dataframe containing provider data
+    :ivar _employee_df: dataframe containing employee data
+    :ivar _service_directory_df: dataframe containing service directory data
+    :ivar _all_services_df: dataframe containing all service data
+    """
     def __init__(self, member_file, provider_file, service_directory, employee_directory):
         self._member_info = member_file
         self._provider_info = provider_file
@@ -104,10 +126,20 @@ class FileSystem:
 
             prov_id = int(prov_id)
 
-        try:
-            tmp_df = pd.read_csv(f"provider_reports/{prov_id}.csv")
-        except FileNotFoundError:
-            return None
+        if self._all_services_df is None:
+            self._load_all_services_df()
+
+        if self._member_df is None:
+            self._load_member_df()
+
+        # build df from all services that contains dos, current date, current time, member fname, mem lname member id, service code, fee
+        left_df = self._all_services_df[self._all_services_df["provider_id"] == prov_id]
+        left_df = left_df[["date_of_service", "current_date", "current_time", "member_first_name", "member_last_name",
+                         "member_id", "service_code", "fee"]]
+
+        right_df = self._member_df[["id", "first_name", "last_name"]]
+
+        tmp_df = pd.merge(left_df, right_df, left_on="member_id", right_on="id")
 
         return tmp_df
 
@@ -118,10 +150,17 @@ class FileSystem:
 
             mem_id = int(mem_id)
 
-        try:
-            tmp_df = pd.read_csv(f"member_reports/{mem_id}.csv")
-        except FileNotFoundError:
-            return None
+        if self._all_services_df is None:
+            self._load_all_services_df()
+
+        if self._provider_df is None:
+            self._load_provider_df()
+
+        left_df = self._all_services_df[self._all_services_df["member_id"] == mem_id]
+        left_df = left_df[["date_of_service","provider_id", "service_name"]]
+        right_df = self._provider_df[["id", "first_name", "last_name"]]
+        tmp_df = pd.merge(left_df, right_df, left_on="provider_id", right_on="id")
+        tmp_df.drop(columns=["provider_id"], inplace=True)
 
         return tmp_df
 
@@ -136,6 +175,14 @@ class FileSystem:
     #     \$$        \$$$$$$  \$$$$$$$  \$$ \$$  \$$$$$$$
 
     def get_member_by_name(self, last_name: str) -> Member | None:
+        """
+        Returns a Member object if found, otherwise returns None
+
+        If multiple members have the same last name, the first one found will be returned. So if you need to ensure
+        that the correct member is returned, use get_member_by_id instead.
+        :param last_name: the string used to search the dataframe
+        :return: Member on success, None on failure
+        """
         if self._member_df is None:
             self._load_member_df()
 
@@ -147,6 +194,13 @@ class FileSystem:
         return Member(**member.iloc[0].to_dict())
 
     def get_member_by_id(self, mem_id: int | str) -> Member | None:
+        """
+        Returns a Member object if found, otherwise returns None
+
+        This method is preferred over get_member_by_name because it is guaranteed to return the correct member.
+        :param mem_id: an integer or a string of length 9
+        :return: Member on success, None on failure
+        """
         if self._member_df is None:
             self._load_member_df()
 
@@ -164,6 +218,13 @@ class FileSystem:
         return Member(**member.iloc[0].to_dict())
 
     def add_member(self, member: Member) -> None:
+        """
+        Adds a member to the member dataframe
+
+
+        :param member:
+        :return:
+        """
         if self._member_df is None:
             self._load_member_df()
 
@@ -333,29 +394,6 @@ class FileSystem:
     def document_service(self, service: Service) -> None:
         if not isinstance(service, Service):
             raise TypeError("service must be of type Service")
-
-        if not os.path.exists(f"member_reports/{service.member_id}.csv"):
-            df = pd.DataFrame(columns=["date_of_service", "provider_first_name", "provider_last_name", "service_name"])
-        else:
-            df = pd.read_csv(f"member_reports/{service.member_id}.csv")
-
-        df.loc[len(df.index)] = service.get_member_report_info()
-        df.to_csv(f"member_reports/{service.member_id}.csv", index=False)
-
-        if not os.path.exists(f"provider_reports/{service.provider_id}.csv"):
-            df = pd.DataFrame(columns=["date_of_service",
-                                       "current_date",
-                                       "current_time",
-                                       "member_first_name",
-                                       "member_last_name",
-                                       "member_id",
-                                       "service_code",
-                                       "fee"])
-        else:
-            df = pd.read_csv(f"provider_reports/{service.provider_id}.csv")
-
-        df.loc[len(df.index)] = service.get_provider_report_info()
-        df.to_csv(f"provider_reports/{service.provider_id}.csv", index=False)
 
         if self._all_services_df is None:
             self._load_all_services_df()
