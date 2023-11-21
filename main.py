@@ -14,6 +14,7 @@ def main():
     tmp_prov = file_system.get_provider_by_name("Zanini")
     tmp_serv = Service("12-31-1973", tmp_prov, tmp_mem, 123456, "splinting", "I splinted his arm", 200.00)
     file_system.document_service(tmp_serv)
+    file_system.document_service(tmp_serv)
 
     print("Member Report")
     print(file_system.get_member_report_as_string(tmp_mem.id))

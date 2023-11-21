@@ -177,7 +177,7 @@ def test_get_provider_report_as_string(file_system, new_member, new_provider, ne
                       f'City: Test City\n'
                       f'State: FA\n'
                       f'Zipcode: 12345\n'
-                             f'\tDOS: 11-17-2023\n'
+                             f'\tDOS: {yesterday}\n'
                              f'\tDate Processed: {current_date}\n'
                              f'\tTime Processed: {current_time}\n'
                              f'\tMember: Steve Patient\n'
