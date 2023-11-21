@@ -68,7 +68,6 @@ class Member:
         save = int(input("1 or 2: "))
         match save:
             case 1:
-                #send to file system
                 return tmp
                 pass
             case 2:
@@ -127,7 +126,6 @@ class Member:
             change_accepted = input("y or n: ")
         if change_accepted == 'y':
             self = current_member
-            #send to file system
         else:
             print("Restarting Member Edits")
             self.edit_member()
@@ -139,6 +137,3 @@ class Member:
     def get_id(self):
         return self.id
     
-
-# m1 = Member('Nathalie', 'Owen', 111111111, '1612 Grand St', 'Alameda', 'CA', 94501, False)
-#m1.edit_member()
