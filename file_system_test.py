@@ -13,7 +13,9 @@ from service import Service
 def file_system():
     return FileSystem("member_data.csv", "provider_data.csv", "service_dir.csv", "employee_data.csv")
 
-
+@pytest.fixture
+def service_from_more_than_7_days_ago(file_system):
+    return Service((datetime.date.today() - datetime.timedelta(days=8)).strftime("%m-%d-%Y"), file_system.get_provider_by_name("Zanini"), file_system.get_member_by_name("Addekin"), 123456, "splinting", "I splinted his arm", 200.00)
 @pytest.fixture
 def empty_file_system():
     return FileSystem("empty_member_data.csv", "empty_provider_data.csv", "empty_service_dir.csv", "empty_employee_data.csv")
@@ -209,3 +211,17 @@ def test_is_valid_employee(file_system):
 def test_is_manager(file_system):
     assert file_system.is_manager(831130215) == True
     assert file_system.is_manager(831130216) == False
+
+def test_get_maximum_member_id(file_system):
+    assert file_system.get_maximum_member_id() == 971447942
+
+def test_document_service_from_more_than_7_days_ago(file_system, service_from_more_than_7_days_ago):
+    file_system.document_service(service_from_more_than_7_days_ago)
+    df = file_system._all_services_df
+    assert len(df.index) != 0
+    member_df = file_system._get_member_report_info(service_from_more_than_7_days_ago.member_id)
+    provider_df = file_system._get_provider_report_info(service_from_more_than_7_days_ago.provider_id)
+
+    assert len(member_df.index) == 0
+    assert len(provider_df.index) == 0
+

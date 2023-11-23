@@ -3,6 +3,7 @@ from service import Service
 from provider import Provider
 import pandas as pd
 import os
+import datetime
 
 
 class FileSystem:
@@ -115,7 +116,7 @@ class FileSystem:
         except FileNotFoundError:
             self._employee_df = pd.DataFrame(columns=["id", "first_name", "last_name", "is_manager"])
 
-    def _get_provider_report_info(self, prov_id: int | str) -> pd.DataFrame | None:
+    def _get_provider_report_info(self, prov_id: int | str, start_date: str = None, end_date: str = None) -> pd.DataFrame | None:
         if isinstance(prov_id, str):
             if len(prov_id) != 9:
                 return None
@@ -128,7 +129,28 @@ class FileSystem:
         if self._member_df is None:
             self._load_member_df()
 
-        # build df from all services that contains dos, current date, current time, member fname, mem lname member id, service code, fee
+        if self._all_services_df is None:
+            self._load_all_services_df()
+
+        if self._provider_df is None:
+            self._load_provider_df()
+
+        if start_date is None and end_date is None:
+            start_date = datetime.date.today() - datetime.timedelta(days=7)
+            end_date = datetime.date.today()
+
+        if isinstance(start_date, str):
+            start_date = datetime.datetime.strptime(start_date, "%m-%d-%Y")
+
+        if isinstance(end_date, str):
+            end_date = datetime.datetime.strptime(end_date, "%m-%d-%Y")
+
+        if end_date - start_date < datetime.timedelta(days=0):
+            return None
+
+        start_date = start_date.strftime("%m-%d-%Y")
+        end_date = end_date.strftime("%m-%d-%Y")
+
         left_df = self._all_services_df[self._all_services_df["provider_id"] == prov_id]
         left_df = left_df[["date_of_service", "current_date", "current_time", "member_id", "service_code", "fee"]]
 
@@ -136,9 +158,11 @@ class FileSystem:
 
         tmp_df = pd.merge(left_df, right_df, left_on="member_id", right_on="id")
 
+        tmp_df = tmp_df[(tmp_df["date_of_service"] >= start_date) & (tmp_df["date_of_service"] <= end_date)]
+
         return tmp_df
 
-    def _get_member_report_info(self, mem_id: int | str) -> pd.DataFrame | None:
+    def _get_member_report_info(self, mem_id: int | str, start_date: str = None, end_date: str = None) -> pd.DataFrame | None:
         if isinstance(mem_id, str):
             if len(mem_id) != 9:
                 return None
@@ -151,11 +175,28 @@ class FileSystem:
         if self._provider_df is None:
             self._load_provider_df()
 
+        if start_date is None and end_date is None:
+            start_date = datetime.date.today() - datetime.timedelta(days=7)
+            end_date = datetime.date.today()
+
+        if isinstance(start_date, str):
+            start_date = datetime.datetime.strptime(start_date, "%m-%d-%Y")
+
+        if isinstance(end_date, str):
+            end_date = datetime.datetime.strptime(end_date, "%m-%d-%Y")
+
+        if end_date - start_date < datetime.timedelta(days=0):
+            return None
+
+        start_date = start_date.strftime("%m-%d-%Y")
+        end_date = end_date.strftime("%m-%d-%Y")
+
         left_df = self._all_services_df[self._all_services_df["member_id"] == mem_id]
         left_df = left_df[["date_of_service","provider_id", "service_name"]]
         right_df = self._provider_df[["id", "first_name", "last_name"]]
         tmp_df = pd.merge(left_df, right_df, left_on="provider_id", right_on="id")
         tmp_df.drop(columns=["provider_id"], inplace=True)
+        tmp_df = tmp_df[(tmp_df["date_of_service"] >= start_date) & (tmp_df["date_of_service"] <= end_date)]
 
         return tmp_df
 
@@ -457,6 +498,9 @@ class FileSystem:
 
     def get_manager_report_as_string(self) -> str | None:
         df = self._all_services_df
+        last_week = datetime.date.today() - datetime.timedelta(days=7)
+        last_week = last_week.strftime("%m-%d-%Y")
+        df = df[df["date_of_service"] >= last_week]
         df = df.groupby(["provider_id"])
 
         man_str = "Weekly Summary Report\n\n"
@@ -469,6 +513,33 @@ class FileSystem:
             man_str += f"Total Fees: {prov_df.fee.sum()}\n\n"
 
         return man_str
+
+    def get_maximum_member_id(self) -> int:
+        if self._member_df is None:
+            self._load_member_df()
+
+        if self._member_df.empty:
+            return 0
+
+        return self._member_df["id"].max()
+
+    def get_maximum_provider_id(self) -> int:
+        if self._provider_df is None:
+            self._load_provider_df()
+
+        if self._provider_df.empty:
+            return 0
+
+        return self._provider_df["id"].max()
+    def get_service_directory_as_string(self) -> str | None:
+        if self._service_directory_df is None:
+            self._load_service_df()
+        service_str = "Service Directory\n\n"
+        for index, row in self._service_directory_df.iterrows():
+            service_str += f"Service Code: {row['service_code']}\n"
+            service_str += f"Service Name: {row['service_name']}\n"
+            service_str += f"Fee: {row['fee']}\n\n"
+        return service_str
 
     def save_dirs(self) -> None:
         if self._member_df is not None:
