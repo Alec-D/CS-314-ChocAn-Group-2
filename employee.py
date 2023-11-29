@@ -11,11 +11,11 @@ class Employee:
         self.id = id
 
     def add_member(self):
-        first_name = input("First name: ")
         last_name = input("Last name: ")
         member = self.file_system.get_member_by_name(last_name)
         if member is None:
             member = Member.build_member()
+            self.file_system.add_member(member)
         else:
             print("Member already exists")
 
@@ -26,6 +26,7 @@ class Employee:
             print("Member does not exist")
         else:
             member.edit_member()
+            self.file_system.update_member(member)
 
     def delete_member(self, member_id):
         member = self.file_system.get_member_by_id(member_id)
@@ -35,11 +36,11 @@ class Employee:
             self.file_system.remove_member(member)
     
     def add_provider(self):
-        first_name = input("First name: ")
         last_name = input("Last name: ")
         provider = self.file_system.get_provider_by_name(last_name)
         if provider is None:
             provider = Provider.build_provider()
+            self.file_system.add_provider(provider)
         else:
             print("Provider already exists")
 
@@ -50,6 +51,7 @@ class Employee:
             print("Provider does not exist")
         else:
             provider.edit_provider()
+            self.file_system.update_provider(provider)
 
     def delete_provider(self, provider_id):
         provider = self.file_system.get_provider_by_id(provider_id)
@@ -57,7 +59,3 @@ class Employee:
             print("Provider does not exist")
         else:
             self.file_system.remove_provider(provider)
-
-        
-    
-    
