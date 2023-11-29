@@ -1,4 +1,3 @@
-datetime
 numpy
 pandas
 pytest
