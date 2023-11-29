@@ -31,7 +31,7 @@ def test_edit_provider_zip(monkeypatch, capsys, new_provider):
     assert new_provider.zip == 77081
 
 def test_build_provider(monkeypatch, capsys):
-    inputs = iter(['Test', 'Test', '111111','1234 Test St', 'Test City', 'CA', 12345, 1])
+    inputs = iter(['Test', 'Test','1234 Test St', 'Test City', 'CA', 12345, 1])
     monkeypatch.setattr('builtins.input', lambda prompt: next(inputs))
     new_provider = Provider.build_provider()
     captured = capsys.readouterr()
