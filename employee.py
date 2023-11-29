@@ -17,20 +17,20 @@ class Employee:
         if member is None:
             member = Member.build_member()
         else:
-            print("Member has exists")
+            print("Member already exists")
 
     def edit_member(self):
         last_name = input("Last name: ")
         member = self.file_system.get_member_by_name(last_name)
         if member is None:
-            print("No member is found")
+            print("Member does not exist")
         else:
             member.edit_member()
 
     def delete_member(self, member_id):
         member = self.file_system.get_member_by_id(member_id)
         if member is None:
-            print("No such member")
+            print("Member does not exist")
         else:
             self.file_system.remove_member(member)
     
@@ -41,20 +41,20 @@ class Employee:
         if provider is None:
             provider = Provider.build_provider()
         else:
-            print("Provider has exists")
+            print("Provider already exists")
 
     def edit_provider(self):
         last_name = input("Last name: ")
         provider = self.file_system.get_provider_by_name(last_name)
         if provider is None:
-            print("No provider is found")
+            print("Provider does not exist")
         else:
             provider.edit_provider()
 
     def delete_provider(self, provider_id):
         provider = self.file_system.get_provider_by_id(provider_id)
         if provider is None:
-            print("No such provider")
+            print("Provider does not exist")
         else:
             self.file_system.remove_provider(provider)
 
