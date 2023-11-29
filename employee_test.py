@@ -12,28 +12,9 @@ import pandas as pd
 
 
 @pytest.fixture
-def file_system():
-    return FileSystem("member_data.csv", "provider_data.csv", "service_dir.csv", "employee_data.csv")
-
-@pytest.fixture
-def empty_file_system():
-    return FileSystem("empty_member_data.csv", "empty_provider_data.csv", "empty_service_dir.csv", "empty_employee_data.csv")
-
-@pytest.fixture
-def new_member():
-    return Member("Steve", "Patient", 123456780, "1234 Test St", "Test City", "FA", 12345, False)
-
-@pytest.fixture
-def new_provider():
-    return Provider("Steve", "Provider", 123456789, "1234 Test St", "Test City", "FA", 12345)
-
-@pytest.fixture
 def new_employee():
     return Employee(100)
 
-
-# def test_things(file_system, empty_file_system, new_member, new_provider):
-#     print("bla")
 
 def test_new_employee(new_employee):
     assert new_employee.id == 100
