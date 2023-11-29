@@ -86,7 +86,7 @@ class FileSystem:
 
     def _load_all_services_df(self) -> None:
         try:
-            self._all_services_df = pd.read_csv("summary_reports/all_services.csv")
+            self._all_services_df = pd.read_csv("summary_reports/all_services.csv", parse_dates=["date_of_service"])
         except FileNotFoundError:
             self._all_services_df = pd.DataFrame(columns=["current_date",
                                                           "current_time",
@@ -136,8 +136,8 @@ class FileSystem:
             self._load_provider_df()
 
         if start_date is None and end_date is None:
-            start_date = datetime.date.today() - datetime.timedelta(days=7)
-            end_date = datetime.date.today()
+            start_date = pd.Timestamp.today() - pd.Timedelta(days=7)
+            end_date = pd.Timestamp.today()
 
         if isinstance(start_date, str):
             start_date = datetime.datetime.strptime(start_date, "%m-%d-%Y")
@@ -148,9 +148,6 @@ class FileSystem:
         if end_date - start_date < datetime.timedelta(days=0):
             return None
 
-        start_date = start_date.strftime("%m-%d-%Y")
-        end_date = end_date.strftime("%m-%d-%Y")
-
         left_df = self._all_services_df[self._all_services_df["provider_id"] == prov_id]
         left_df = left_df[["date_of_service", "current_date", "current_time", "member_id", "service_code", "fee"]]
 
@@ -158,7 +155,7 @@ class FileSystem:
 
         tmp_df = pd.merge(left_df, right_df, left_on="member_id", right_on="id")
 
-        tmp_df = tmp_df[(tmp_df["date_of_service"] >= start_date) & (tmp_df["date_of_service"] <= end_date)]
+        tmp_df = tmp_df[(pd.to_datetime(tmp_df.date_of_service, format='%m-%d-%Y') >= start_date) & (pd.to_datetime(tmp_df.date_of_service, format='%m-%d-%Y')<= end_date)]
 
         return tmp_df
 
@@ -176,8 +173,8 @@ class FileSystem:
             self._load_provider_df()
 
         if start_date is None and end_date is None:
-            start_date = datetime.date.today() - datetime.timedelta(days=7)
-            end_date = datetime.date.today()
+            start_date = pd.Timestamp.today() - pd.Timedelta(days=7)
+            end_date = pd.Timestamp.today()
 
         if isinstance(start_date, str):
             start_date = datetime.datetime.strptime(start_date, "%m-%d-%Y")
@@ -188,15 +185,12 @@ class FileSystem:
         if end_date - start_date < datetime.timedelta(days=0):
             return None
 
-        start_date = start_date.strftime("%m-%d-%Y")
-        end_date = end_date.strftime("%m-%d-%Y")
-
         left_df = self._all_services_df[self._all_services_df["member_id"] == mem_id]
         left_df = left_df[["date_of_service","provider_id", "service_name"]]
         right_df = self._provider_df[["id", "first_name", "last_name"]]
         tmp_df = pd.merge(left_df, right_df, left_on="provider_id", right_on="id")
         tmp_df.drop(columns=["provider_id"], inplace=True)
-        tmp_df = tmp_df[(tmp_df["date_of_service"] >= start_date) & (tmp_df["date_of_service"] <= end_date)]
+        tmp_df = tmp_df[(pd.to_datetime(tmp_df.date_of_service, format='%m-%d-%Y') >= start_date) & (pd.to_datetime(tmp_df.date_of_service, format='%m-%d-%Y') <= end_date)]
 
         return tmp_df
 
@@ -266,6 +260,9 @@ class FileSystem:
 
         if not isinstance(member, Member):
             raise TypeError("member must be of type Member")
+
+        if member.id == 0:
+            member.id = self.get_maximum_member_id() + 1
 
         self._member_df.loc[len(self._member_df.index)] = [n[1] for n in member.__dict__.items() if n[0] != "name"]
 
@@ -342,6 +339,9 @@ class FileSystem:
 
         if not isinstance(provider, Provider):
             raise TypeError("provider must be of type Provider")
+
+        if provider.id == 0:
+            provider.id = self.get_maximum_provider_id() + 1
 
         self._provider_df.loc[len(self._provider_df.index)] = [n[1] for n in provider.__dict__.items() if n[0] != "name"]
 
@@ -498,19 +498,31 @@ class FileSystem:
 
     def get_manager_report_as_string(self) -> str | None:
         df = self._all_services_df
-        last_week = datetime.date.today() - datetime.timedelta(days=7)
-        last_week = last_week.strftime("%m-%d-%Y")
-        df = df[df["date_of_service"] >= last_week]
-        df = df.groupby(["provider_id"])
+        start_date = pd.Timestamp.today() - pd.Timedelta(days=7)
+        end_date = pd.Timestamp.today()
+        df = df[(pd.to_datetime(df.date_of_service, format='%m-%d-%Y') >= start_date) & (pd.to_datetime(df.date_of_service, format='%m-%d-%Y') <= end_date)]
+        grouped_df = df.groupby(["provider_id"])
 
         man_str = "Weekly Summary Report\n\n"
+        prov_count = 0
+        fee_sum = 0
 
-        for ids, prov_df in df:
+        for ids, prov_df in grouped_df:
+            if len(prov_df.index) > 0:
+                prov_count += 1
             tmp_df = self._provider_df[self._provider_df["id"] == ids]
             names = tmp_df.iloc[0][["first_name", "last_name"]].to_list()
-            man_str += f"Provider: {names[0]} {names[1]}\n"
-            man_str += f"Total Consultations: {len(prov_df.index)}\n"
-            man_str += f"Total Fees: {prov_df.fee.sum()}\n\n"
+            man_str += f"\tProvider: {names[0]} {names[1]}\n"
+            man_str += f"\tTotal Consultations: {len(prov_df.index)}\n"
+            man_str += f"\tTotal Fees: {prov_df.fee.sum()}\n\n"
+
+        if prov_count == 0:
+            fee_sum = 0
+        else:
+            fee_sum = df.fee.sum()
+        man_str += f"Total Providers: {prov_count}\n"
+        man_str += f"Total Consultations: {len(df)}\n"
+        man_str += f"Total Fees: {fee_sum}\n"
 
         return man_str
 
@@ -534,6 +546,7 @@ class FileSystem:
     def get_service_directory_as_string(self) -> str | None:
         if self._service_directory_df is None:
             self._load_service_df()
+
         service_str = "Service Directory\n\n"
         for index, row in self._service_directory_df.iterrows():
             service_str += f"Service Code: {row['service_code']}\n"
