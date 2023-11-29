@@ -17,9 +17,9 @@ class Employee:
         print("2.\tEdit Member")
         print("3.\tDelete Member")
         if (self.file_system.is_manager(self.id)):
-            print("4.\tAdd provider")
-            print("5.\tEdit provider")
-            print("6.\tDelete provider")
+            print("4.\tAdd Provider")
+            print("5.\tEdit Provider")
+            print("6.\tDelete Provider")
 
         user = int(input("->"))
         return user
