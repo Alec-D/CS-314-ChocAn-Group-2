@@ -51,7 +51,7 @@ class Provider:
         tmp.last_name = input("Last Name: ")
         full_name = tmp.first_name + " " + tmp.last_name
         tmp.name = full_name[0:25]
-        tmp.id = input("ID: ")
+        tmp.id = 0
         tmp.street = input("Street Address: ")
         tmp.street = tmp.street[0:25]
         tmp.city = input("City: ")
