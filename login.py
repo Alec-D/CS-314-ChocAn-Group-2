@@ -1,4 +1,5 @@
 from file_system import FileSystem
+from employee import Employee
 
 
 class User:
@@ -55,4 +56,26 @@ class User:
         # TODO: if employeee, display employee info and permissions
         # TODO: call employee terminal or provided terminal
 
-        # temp.save_dirs()
+        if (self.userType == "employee"):
+            emp = Employee(self.ID)
+            option = emp.displayOptions()
+            if (option == 1):  # add member
+                emp.add_member()
+            elif (options == 2):  # edit member
+                emp.edit_member()
+            elif (options == 3):  # delete member
+                memberID = int(input("Please enter the member ID: "))
+                emp.delete_member(memberID)
+            elif (options == 4):  # add provider
+                emp.add_provider()
+            elif (options == 5):  # edit provider
+                emp.edit_provider()
+            elif (options == 6):  # delete provider
+                memeberID = int(input("Please enter the member ID: "))
+                emp.delete_provider()
+
+        else:  # user is a provider
+            # call provider terminal
+            pass
+
+    # temp.save_dirs()
