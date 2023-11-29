@@ -16,7 +16,7 @@ class Employee:
         print("1.\tAdd Member")
         print("2.\tEdit Member")
         print("3.\tDelete Member")
-        if (file_system.is_manager(self.id)):
+        if (self.file_system.is_manager(self.id)):
             print("4.\tAdd provider")
             print("5.\tEdit provider")
             print("6.\tDelete provider")
