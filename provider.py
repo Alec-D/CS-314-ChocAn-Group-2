@@ -83,7 +83,7 @@ class Provider:
         current_provider = self
         changes_done = 'n'
         while changes_done == 'n':
-            choice = input("Enter field to edit: First Name, Last Name, Street Address, City, State, Zip")
+            choice = input("Enter field to edit: First Name, Last Name, Street Address, City, State, Zip: ")
             match choice:
                 case 'First Name':
                     current_provider.first_name = input("Enter New First Name: ")
@@ -101,7 +101,7 @@ class Provider:
                         current_provider.state = input("State: ")
                         valid_state = utility_functions.check_state(current_provider.state)
                 case 'Zip':
-                    current_provider.zip = input("Enter New Zip: ")
+                    current_provider.zip = int(input("Enter New Zip: "))
                     while current_provider.zip < 1 or current_provider.zip > 99999:
                         print("Invalid Zip Code")
                         current_provider.zip = input("Zip: ")
@@ -113,8 +113,7 @@ class Provider:
             print("please enter y or n.")
             change_accepted = input("y or n: ")
         if change_accepted == 'y':
-            self = current_provider
-            #send to file system
+            self = current_provider          
         else:
             print("Restarting Provider Edits")
             self.edit_provider(self)
