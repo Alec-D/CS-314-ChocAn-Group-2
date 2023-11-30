@@ -70,7 +70,6 @@ class Member:
                 pass
             case 2:
                 print("Starting data entry for new member again")
-                max_id = max_id - 1
                 Member.build_member()
 
     def edit_member(self):
