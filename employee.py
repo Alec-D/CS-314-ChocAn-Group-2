@@ -20,6 +20,7 @@ class Employee:
             print("4.\tAdd Provider")
             print("5.\tEdit Provider")
             print("6.\tDelete Provider")
+        print("7.\tExit to main terminal")
 
         user = int(input("->"))
         return user
