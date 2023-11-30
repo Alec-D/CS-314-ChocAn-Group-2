@@ -5,16 +5,19 @@ from provider import Provider
 from datetime import datetime
 
 
-class ProviderTerminal(Provider):
+class ProviderTerminal():
 
-    def __init__(self, providerID = Provider(), fileSystem = FileSystem, service_number = Service(), service_date = Service(), comments = Service()):
+    def __init__(self, providerID, service_name, service_number, service_date, comments, memberID,fee, fileSystem = FileSystem):
         self.member = None
         #example - self.service_number = service_number.service_code 
+        self.service_name = service_name
         self.service_number = 0
         self.service_date = None
         self.fileSystem = fileSystem
         self.comments = None
         self.providerID = providerID
+        self.memberID = memberID
+        self.fee = fee
 
     def generateReport(self, date, memberID, serviceCode):
         print(f"Current date and time: {date.strftime('%m-%d-%Y %H:%M:%S')}")
@@ -76,22 +79,27 @@ class ProviderTerminal(Provider):
     # def get_service(self): adrian
     # get the info about the service
     def get_service(self):
-        self.service_number = Service()
-        self.service_number.service_code
-        self.service_date = Service()
-        self.service_date.current_date
-        self.service_time = Service()
-        self.service_time.current_time
+        #self.service_number = Service()
+        #self.service_number.service_code
 
-        while True:
-         code = input("Enter the six digit service number: ")
-        
-         print("You entered ",input)
-         print("Checking if it's six digits",input.isdigit())
-        
-         if code == self.service_code:
-            print("This is correct ")
-            break
+        number = self.service_number
 
-         else:
-            print("Try again")
+        while len(number <= 6):
+         input("Enter the six digit service number: ")
+         if len(number <= 6):
+             print(f"The code entered is{number}.  The code is verified")
+        else:
+            print(f"Invalid entry.  Try again")
+
+            name = self.fileSystem.get_service_name_by_code(number)
+            while True:
+                print(f"Since you entered{number} This means you're requesting
+                      {name}")
+                
+                if name is None:
+                    print(f"Invalid.  Try again")
+
+                else:
+                    print(f"Entry is valid")
+
+    
