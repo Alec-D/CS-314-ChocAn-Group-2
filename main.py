@@ -9,8 +9,9 @@ from login import User
 
 
 def main():
-    file_system = FileSystem(
-        "member_data.csv", "provider_data.csv", "service_dir.csv", "employee_data.csv")
+    file_system = FileSystem("member_data.csv", "provider_data.csv",
+                             "service_dir.csv", "employee_data.csv")
+
     tmp_mem = file_system.get_member_by_name("Addekin")
     tmp_prov = file_system.get_provider_by_name("Zanini")
     tmp_serv = Service("11-28-2023", tmp_prov, tmp_mem, 123456,
@@ -26,10 +27,10 @@ def main():
     print(file_system.get_etf_report_as_string(tmp_prov.id))
     print("Summary Report")
     print(file_system.get_manager_report_as_string())
-
+    print("Service Directory")
     print(file_system.get_service_directory_as_string())
 
-    newUser = User(0)
+    newUser = User(file_system)
     newUser.loginUI()
 
 
