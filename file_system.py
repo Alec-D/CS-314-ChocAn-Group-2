@@ -589,3 +589,34 @@ class FileSystem:
 
         if self._all_services_df is not None:
             self._save_all_services_df()
+
+
+    def print_all_members(self) -> None:
+        if self._member_df is None:
+            self._load_member_df()
+        print("\nAll members:\n")
+        print(self._member_df.to_string() + '\n')
+
+    def print_all_providers(self) -> None:
+        if self._provider_df is None:
+            self._load_provider_df()
+        print("\nAll providers:\n")
+        print(self._provider_df.to_string() + '\n')
+
+    def print_all_employees(self) -> None:
+        if self._employee_df is None:
+            self._load_employee_df()
+        print("\nAll employees:\n")
+        print(self._employee_df.to_string() + '\n')
+
+    def print_all_services(self) -> None:
+        if self._all_services_df is None:
+            self._load_all_services_df()
+        print("\nAll services:\n")
+        print(self._all_services_df.to_string() + '\n')
+
+    def print_service_directory(self) -> None:
+        if self._service_directory_df is None:
+            self._load_service_df()
+        print("\nService Directory:\n")
+        print(self._service_directory_df.to_string() + '\n')
