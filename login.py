@@ -10,11 +10,10 @@ class User:
 
     """
 
-    def __init__(self, id):
-        self.id = id
+    def __init__(self, fileSystem: FileSystem):
+        self.id = 0
         self.userType = None
-        self.fileSystem = FileSystem("member_data.csv", "provider_data.csv",
-                                     "service_dir.csv", "employee_data.csv")
+        self.fileSystem = fileSystem
 
 
     def isValid(self):
@@ -92,15 +91,15 @@ class User:
 
                 elif isManager:
                     numOptions = 11
-                    print("1. View all members (can be large!)")
-                    print("2. Add member")
-                    print("3. Edit member")
-                    print("4. Delete member")
-                    print("5. View all providers (can be large!)")
-                    print("6. Add provider")
-                    print("7. Edit provider")
-                    print("8. Delete provider")
-                    print("9. Request report")
+                    print("1.  View all members (can be large!)")
+                    print("2.  Add member")
+                    print("3.  Edit member")
+                    print("4.  Delete member")
+                    print("5.  View all providers (can be large!)")
+                    print("6.  Add provider")
+                    print("7.  Edit provider")
+                    print("8.  Delete provider")
+                    print("9.  Request reports")
                     print("10. Save all data to files")
                     print("11. Exit to main terminal")
                     userInput = getInputNumberSafe(numOptions)
@@ -121,11 +120,10 @@ class User:
                         case 7:  # Edit provider
                             emp.edit_provider()
                         case 8:  # Delete provider
-                            providerID = int(
-                                input("Please enter the member ID: "))
+                            providerID = int(input("Please enter the provider ID: "))
                             emp.delete_provider(providerID)
-                        case 9:  # Request manager report
-                            print(self.fileSystem.get_manager_report_as_string())
+                        case 9:  # Request reports
+                            self.request_reports()
                         case 10:  # Save changes
                             self.fileSystem.save_dirs()
                             print("All files saved!\n")
@@ -140,3 +138,45 @@ class User:
             else:  # user is a provider
                 # call provider terminal
                 pass
+
+
+    def request_reports(self):
+        while True:
+            numOptions = 5
+            print("1. Manager Summary Report")
+            print("2. Member Summary Report")
+            print("3. Provider Summary Report")
+            print("4. Provider ETF Report")
+            print("5. Exit reports")
+            userInput = getInputNumberSafe(numOptions)
+            match userInput:
+                case 1:
+                    print(self.fileSystem.get_manager_report_as_string())
+                case 2:
+                    print("Please enter the member ID: ")
+                    userInput = getInputNumberSafe(999999999)
+                    report = self.fileSystem.get_member_report_as_string(userInput)
+                    if report == None:
+                        print("No member found")
+                    else:
+                        print(report)
+                case 3:
+                    print("Please enter the provider ID: ")
+                    userInput = getInputNumberSafe(999999999)
+                    report = self.fileSystem.get_provider_report_as_string(userInput)
+                    if report == None:
+                        print("No provider found")
+                    else:
+                        print(report)
+                case 4:
+                    print("Please enter the provider ID: ")
+                    userInput = getInputNumberSafe(999999999)
+                    report = self.fileSystem.get_etf_report_as_string(userInput)
+                    if report == None:
+                        print("No provider found")
+                    else:
+                        print(report)
+                case 5:  # Exit terminal
+                    return
+                case _:  # Invalid option
+                    print("ERROR!!!")
