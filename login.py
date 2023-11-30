@@ -2,6 +2,7 @@ from file_system import FileSystem
 from employee import Employee
 from utility_functions import *
 
+
 class User:
     """
 
@@ -13,7 +14,7 @@ class User:
         self.id = id
         self.userType = None
         self.fileSystem = FileSystem("member_data.csv", "provider_data.csv",
-                      "service_dir.csv", "employee_data.csv")
+                                     "service_dir.csv", "employee_data.csv")
 
     def isValid(self):
         if (self.userType == "employee"):
@@ -48,7 +49,7 @@ class User:
             else:
                 print("Access Granted")
                 self.accessGranted()
-    
+
     def accessGranted(self):
         while True:
 
@@ -66,9 +67,10 @@ class User:
                     print("4. Add Provider")
                     print("5. Edit Provider")
                     print("6. Delete Provider")
-                    print("7. Save all data to files")
-                    print("8. Exit to main terminal")
-                    numOptions = 8
+                    print("7. Request report")
+                    print("8. Save all data to files")
+                    print("9. Exit to main terminal")
+                    numOptions = 9
                 else:
                     print("4. Save all data to files")
                     print("5. Exit to main terminal")
@@ -76,44 +78,52 @@ class User:
 
                 userInput = getInputNumberSafe(numOptions)
                 match userInput:
-                    case 1:
+                    case 1:  # Add member
                         emp.add_member()
-                    case 2:
+                    case 2:  # Edit member
                         emp.edit_member()
-                    case 3:
+                    case 3:  # Delete member
                         memberID = int(input("Please enter the member ID: "))
                         emp.delete_member(memberID)
-                    case 4:
+                    case 4:  # Add provider
                         if isManager:
                             emp.add_provider()
                         else:
                             self.fileSystem.save_dirs()
-                    case 5:
+                    case 5:  # Edit provider
                         if isManager:
                             emp.edit_provider()
                         else:
                             return
-                    case 6:
+                    case 6:  # Delete provider
                         if isManager:
-                            providerID = int(input("Please enter the member ID: "))
+                            providerID = int(
+                                input("Please enter the member ID: "))
                             emp.delete_provider(providerID)
                         else:
                             print("ERROR!!!")
                             continue
-                    case 7:
+                    case 7:  # Request manager report
+                        if isManager:
+                            print(self.fileSystem.get_manager_report_as_string())
+                        else:
+                            print("ERROR!!!")
+                            continue
+                    case 8:  # Save changes
                         if isManager:
                             self.fileSystem.save_dirs()
                             print("saved!")
                         else:
                             print("ERROR!!!")
                             continue
-                    case 8:
+                    case 9:  # Exit terminal
                         if isManager:
                             return
                         else:
                             print("ERROR!!!")
                             continue
-                    case _:
+
+                    case _:  # Invalid option
                         print("ERROR!!!")
 
             else:  # user is a provider
