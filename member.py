@@ -94,7 +94,7 @@ class Member:
                 current_member.zip = int(input("Enter New Zip: "))
                 while current_member.zip < 1 or current_member.zip > 99999:
                     print("Invalid Zip Code")
-                    current_member.zip = input("Zip: ")
+                    current_member.zip = int(input("Zip: "))
             case 'Status':
                 if current_member.is_suspended is False:
                     print("Member Status is Suspended")

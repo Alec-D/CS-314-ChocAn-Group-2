@@ -63,10 +63,10 @@ class Provider:
             print("Invalid State. Enter 2 letter state abbreviation: ")
             tmp.state = input("State: ")
             valid_state = utility_functions.check_state(tmp.state)
-        tmp.zip = input("Zip: ")
+        tmp.zip = int(input("Zip: "))
         while tmp.zip < 1 or tmp.zip > 99999:
             print("Invalid Zip Code")
-            tmp.zip = input("Zip: ")
+            tmp.zip = int(input("Zip: "))
         print("If the information below is correct, press 1 to save the provider data.")
         print("If the information is not correct, press 2 to re-enter the provider data. ")
         save = int(input("1 or 2: "))
