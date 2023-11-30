@@ -451,7 +451,7 @@ class FileSystem:
         self._all_services_df.loc[len(
             self._all_services_df.index)] = list(service)
 
-    def get_member_report_as_string(self, mem_id: int | str) -> str | None:
+    def get_member_report_as_string(self, mem_id: int | str, save_to_file: bool = True) -> str | None:
         member = self.get_member_by_id(mem_id)
         if member is None:
             return None
@@ -465,9 +465,13 @@ class FileSystem:
             mem_str += f"\tProvider Name: {row[1]['first_name']} {row[1]['last_name']}\n"
             mem_str += f"\tService: {row[1]['service_name']}\n\n"
 
+        if save_to_file:
+            with open(f"member_reports/{member.get_id()}_report.txt", "w") as file:
+                print(f"{mem_str}", file=file)
+
         return mem_str
 
-    def get_provider_report_as_string(self, prov_id: int | str) -> str | None:
+    def get_provider_report_as_string(self, prov_id: int | str, save_to_file: bool = True) -> str | None:
         provider = self.get_provider_by_id(prov_id)
 
         if provider is None:
@@ -492,9 +496,13 @@ class FileSystem:
         prov_str += f"Total Consultations: {count}\n"
         prov_str += f"Total Fees: {fee}\n"
 
+        if save_to_file:
+            with open(f"provider_reports/{provider.get_id()}_report.txt", "w") as file:
+                print(f"{prov_str}", file=file)
+
         return prov_str
 
-    def get_etf_report_as_string(self, prov_id: int | str) -> str | None:
+    def get_etf_report_as_string(self, prov_id: int | str, save_to_file: bool = True) -> str | None:
         provider = self.get_provider_by_id(prov_id)
 
         if provider is None:
@@ -509,9 +517,13 @@ class FileSystem:
 
         etf_str += f"Total Earned: {total_earned}\n"
 
+        if save_to_file:
+            with open(f"provider_reports/{provider.get_id()}_etf_report.txt", "w") as file:
+                print(f"{etf_str}", file=file)
+
         return etf_str
 
-    def get_manager_report_as_string(self) -> str | None:
+    def get_manager_report_as_string(self, save_to_file: bool = True) -> str | None:
         if self._all_services_df is None:
             self._load_all_services_df()
 
@@ -545,6 +557,10 @@ class FileSystem:
         man_str += f"Total Providers: {prov_count}\n"
         man_str += f"Total Consultations: {len(df)}\n"
         man_str += f"Total Fees: {fee_sum}\n"
+
+        if save_to_file:
+            with open(f"summary_reports/manager_summary_report.txt", "w") as file:
+                print(f"{man_str}", file=file)
 
         return man_str
 
@@ -589,3 +605,34 @@ class FileSystem:
 
         if self._all_services_df is not None:
             self._save_all_services_df()
+
+
+    def print_all_members(self) -> None:
+        if self._member_df is None:
+            self._load_member_df()
+        print("\nAll members:\n")
+        print(self._member_df.to_string() + '\n')
+
+    def print_all_providers(self) -> None:
+        if self._provider_df is None:
+            self._load_provider_df()
+        print("\nAll providers:\n")
+        print(self._provider_df.to_string() + '\n')
+
+    def print_all_employees(self) -> None:
+        if self._employee_df is None:
+            self._load_employee_df()
+        print("\nAll employees:\n")
+        print(self._employee_df.to_string() + '\n')
+
+    def print_all_services(self) -> None:
+        if self._all_services_df is None:
+            self._load_all_services_df()
+        print("\nAll services:\n")
+        print(self._all_services_df.to_string() + '\n')
+
+    def print_service_directory(self) -> None:
+        if self._service_directory_df is None:
+            self._load_service_df()
+        print("\nService Directory:\n")
+        print(self._service_directory_df.to_string() + '\n')
