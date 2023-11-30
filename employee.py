@@ -35,6 +35,7 @@ class Employee:
             print("Member does not exist")
         else:
             self.fileSystem.remove_member(member)
+            print("Member Deleted")
 
     def add_provider(self):
         last_name = input("Let's check if the provider exists already. Enter their last name: ")

@@ -111,10 +111,13 @@ class Member:
                         current_member.is_suspended = False
                 else:
                     print("No change in status entered")
+            case _:
+                print("Invalid Entry")
+                self.edit_member()
         print("\n\nNew Member Data: ")
         print(current_member)
         change_accepted = input("If this new information is correct, enter y. \nIf it is wrong, enter n: ")
-        while change_accepted != 'y' and change_status != 'n':
+        while change_accepted != 'y' and change_accepted != 'n':
             print("please enter y or n.")
             change_accepted = input("y or n: ")
         if change_accepted == 'y':
