@@ -1,8 +1,4 @@
 import utility_functions
-global max_id
-max_id = 971447942
-
-
 class Member:
     def __init__(self, first_name, last_name, id, street, city, state, zip, is_suspended):
         if id == 0:
