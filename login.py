@@ -8,12 +8,12 @@ class User:
     Class to handle all login functionalities for employees and providers
 
     """
-    fileSystem = FileSystem("member_data.csv", "provider_data.csv",
-                      "service_dir.csv", "employee_data.csv")
 
     def __init__(self, id):
         self.id = id
         self.userType = None
+        self.fileSystem = FileSystem("member_data.csv", "provider_data.csv",
+                      "service_dir.csv", "employee_data.csv")
 
     def isValid(self):
         if (self.userType == "employee"):
@@ -119,5 +119,3 @@ class User:
             else:  # user is a provider
                 # call provider terminal
                 pass
-
-    # fileSystem.save_dirs()
