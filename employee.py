@@ -11,16 +11,17 @@ class Employee:
         self.fileSystem = fileSystem
 
     def add_member(self):
-        last_name = input("Last name: ")
+        last_name = input("Let's check if the member exists already. Enter their last name: ")
         member = self.fileSystem.get_member_by_name(last_name)
         if member is None:
+            print("Member does not already exist. Add Member: ")
             member = Member.build_member()
             self.fileSystem.add_member(member)
         else:
             print("Member already exists")
 
     def edit_member(self):
-        last_name = input("Last name: ")
+        last_name = input("Enter their last name: ")
         member = self.fileSystem.get_member_by_name(last_name)
         if member is None:
             print("Member does not exist")
@@ -36,9 +37,10 @@ class Employee:
             self.fileSystem.remove_member(member)
 
     def add_provider(self):
-        last_name = input("Last name: ")
+        last_name = input("Let's check if the provider exists already. Enter their last name: ")
         provider = self.fileSystem.get_provider_by_name(last_name)
         if provider is None:
+            print("Provider does not already exist. Add Provider: ")
             provider = Provider.build_provider()
             self.fileSystem.add_provider(provider)
         else:
