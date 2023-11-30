@@ -56,7 +56,7 @@ class User:
             # TODO: call employee terminal or provided terminal
 
             if self.userType == "employee":
-                emp = Employee(self.id)
+                emp = Employee(self.id, self.fileSystem)
                 isManager = self.fileSystem.is_manager(self.id)
 
                 print("1. Add Member")
