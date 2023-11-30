@@ -12,19 +12,6 @@ class Employee:
     def __init__(self, id):
         self.id = id
 
-    def displayOptions(self) -> int:
-        print("1.\tAdd Member")
-        print("2.\tEdit Member")
-        print("3.\tDelete Member")
-        if (self.file_system.is_manager(self.id)):
-            print("4.\tAdd Provider")
-            print("5.\tEdit Provider")
-            print("6.\tDelete Provider")
-        print("7.\tExit to main terminal")
-
-        user = int(input("->"))
-        return user
-
     def add_member(self):
         last_name = input("Last name: ")
         member = self.file_system.get_member_by_name(last_name)
