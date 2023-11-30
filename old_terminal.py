@@ -6,7 +6,7 @@
 
 def terminal():
     while True:
-        print("Welcome to the ChocAn Terminal System 3000!\n")
+        print("Welcome to the ChocAn Terminal System!\n")
         print("Please choose an option below by entering a number between 1 and 3")
         print("1. I am a Provider")
         print("2. I am a Manager")
@@ -62,7 +62,8 @@ def getInputNumberSafe(numOptions: int) -> int:
         print("-------------------------------------------------")
         try:
             response = int(response)
-            if response in range(1, numOptions+1):
+            # if response in range(1, numOptions+1):
+            if response >= 1 and response <= numOptions:
                 return response
         except:
             pass
