@@ -7,8 +7,9 @@ from datetime import datetime
 
 class ProviderTerminal(Provider):
 
-    def __init__(self, providerID, fileSystem):
+    def __init__(self, providerID = Provider(), fileSystem = FileSystem, service_number = Service(), service_date = Service(), comments = Service()):
         self.member = None
+        #example - self.service_number = service_number.service_code 
         self.service_number = 0
         self.service_date = None
         self.fileSystem = fileSystem
@@ -74,3 +75,23 @@ class ProviderTerminal(Provider):
 
     # def get_service(self): adrian
     # get the info about the service
+    def get_service(self):
+        self.service_number = Service()
+        self.service_number.service_code
+        self.service_date = Service()
+        self.service_date.current_date
+        self.service_time = Service()
+        self.service_time.current_time
+
+        while True:
+         code = input("Enter the six digit service number: ")
+        
+         print("You entered ",input)
+         print("Checking if it's six digits",input.isdigit())
+        
+         if code == self.service_code:
+            print("This is correct ")
+            break
+
+         else:
+            print("Try again")
