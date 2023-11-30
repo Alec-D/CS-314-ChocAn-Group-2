@@ -1,4 +1,4 @@
-import verification_functions
+import utility_functions
 global max_id
 max_id = 971447942
 
@@ -51,11 +51,11 @@ class Member:
         tmp.city = input("City: ")
         tmp.city = tmp.city[0:14]
         tmp.state = input("State: ")
-        valid_state = verification_functions.check_state(tmp.state)
+        valid_state = utility_functions.check_state(tmp.state)
         while valid_state is False:
             print("Invalid State. Enter 2 letter state abbreviation: ")
             tmp.state = input("State: ")
-            valid_state = verification_functions.check_state(tmp.state)
+            valid_state = utility_functions.check_state(tmp.state)
         tmp.zip = int(input("Zip: "))
         while tmp.zip < 1 or tmp.zip > 99999:
             print("Invalid Zip Code")
@@ -90,11 +90,11 @@ class Member:
                 current_member.city = input("Enter New City: ")
             case 'State':
                 current_member.state = input("Enter New State: ")
-                valid_state = verification_functions.check_state(current_member.state)
+                valid_state = utility_functions.check_state(current_member.state)
                 while valid_state  is False:
                     print("Invalid State. Enter 2 letter state abbreviation: ")
                     current_member.state = input("State: ")
-                    valid_state = verification_functions.check_state(current_member.state)
+                    valid_state = utility_functions.check_state(current_member.state)
             case 'Zip':
                 current_member.zip = input("Enter New Zip: ")
                 while current_member.zip < 1 or current_member.zip > 99999:

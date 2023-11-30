@@ -1,4 +1,4 @@
-import verification_functions
+import utility_functions
 
 
 class Provider:
@@ -58,11 +58,11 @@ class Provider:
         tmp.city = input("City: ")
         tmp.city = tmp.city[0:14]
         tmp.state = input("State: ")
-        valid_state = verification_functions.check_state(tmp.state)
+        valid_state = utility_functions.check_state(tmp.state)
         while valid_state  is False:
             print("Invalid State. Enter 2 letter state abbreviation: ")
             tmp.state = input("State: ")
-            valid_state = verification_functions.check_state(tmp.state)
+            valid_state = utility_functions.check_state(tmp.state)
         tmp.zip = input("Zip: ")
         while tmp.zip < 1 or tmp.zip > 99999:
             print("Invalid Zip Code")
@@ -95,11 +95,11 @@ class Provider:
                     current_provider.city = input("Enter New City: ")
                 case 'State':
                     current_provider.state = input("Enter New State: ")
-                    valid_state = verification_functions.check_state(current_provider.state)
+                    valid_state = utility_functions.check_state(current_provider.state)
                     while valid_state  is False:
                         print("Invalid State. Enter 2 letter state abbreviation: ")
                         current_provider.state = input("State: ")
-                        valid_state = verification_functions.check_state(current_provider.state)
+                        valid_state = utility_functions.check_state(current_provider.state)
                 case 'Zip':
                     current_provider.zip = input("Enter New Zip: ")
                     while current_provider.zip < 1 or current_provider.zip > 99999:
