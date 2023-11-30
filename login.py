@@ -1,7 +1,7 @@
 from file_system import FileSystem
 from employee import Employee
 from utility_functions import *
-
+# from provider_terminal import ProviderTerminal
 
 class User:
     """
@@ -14,13 +14,15 @@ class User:
         self.id = 0
         self.userType = None
         self.fileSystem = fileSystem
+        self.provider = None
 
 
     def isValid(self):
         if (self.userType == "employee"):
             return self.fileSystem.is_valid_employee(self.id)
         elif (self.userType == "provider"):
-            return self.fileSystem.get_provider_by_id(self.id)
+            self.provider = self.fileSystem.get_provider_by_id(self.id)
+            return self.provider
         else:
             return False
 
@@ -136,8 +138,23 @@ class User:
                     return
 
             else:  # user is a provider
-                # call provider terminal
-                pass
+                numOptions = 4
+                print("1. Check member status")
+                print("2. Request service directory")
+                print("3. Record service provided")
+                print("4. Exit to main terminal")
+                userInput = getInputNumberSafe(numOptions)
+                match userInput:
+                    case 1:
+                        pass
+                    case 2:
+                        pass
+                    case 3:
+                        pass
+                    case 4:  # Exit terminal
+                        return
+                    case _:  # Invalid option
+                        print("ERROR!!!")
 
 
     def request_reports(self):
