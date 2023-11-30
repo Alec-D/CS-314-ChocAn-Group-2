@@ -91,7 +91,7 @@ class Member:
                     current_member.state = input("State: ")
                     valid_state = utility_functions.check_state(current_member.state)
             case 'Zip':
-                current_member.zip = input("Enter New Zip: ")
+                current_member.zip = int(input("Enter New Zip: "))
                 while current_member.zip < 1 or current_member.zip > 99999:
                     print("Invalid Zip Code")
                     current_member.zip = input("Zip: ")
