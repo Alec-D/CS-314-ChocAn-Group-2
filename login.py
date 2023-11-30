@@ -16,6 +16,7 @@ class User:
         self.fileSystem = FileSystem("member_data.csv", "provider_data.csv",
                                      "service_dir.csv", "employee_data.csv")
 
+
     def isValid(self):
         if (self.userType == "employee"):
             return self.fileSystem.is_valid_employee(self.id)
@@ -23,6 +24,7 @@ class User:
             return self.fileSystem.get_provider_by_id(self.id)
         else:
             return False
+
 
     def loginUI(self):
         while True:
@@ -50,6 +52,7 @@ class User:
                 print("Access Granted")
                 self.accessGranted()
 
+
     def accessGranted(self):
         while True:
 
@@ -60,71 +63,79 @@ class User:
                 emp = Employee(self.id, self.fileSystem)
                 isManager = self.fileSystem.is_manager(self.id)
 
-                print("1. Add Member")
-                print("2. Edit Member")
-                print("3. Delete Member")
-                if isManager:
-                    print("4. Add Provider")
-                    print("5. Edit Provider")
-                    print("6. Delete Provider")
-                    print("7. Request report")
-                    print("8. Save all data to files")
-                    print("9. Exit to main terminal")
-                    numOptions = 9
-                else:
-                    print("4. Save all data to files")
-                    print("5. Exit to main terminal")
-                    numOptions = 5
-
-                userInput = getInputNumberSafe(numOptions)
-                match userInput:
-                    case 1:  # Add member
-                        emp.add_member()
-                    case 2:  # Edit member
-                        emp.edit_member()
-                    case 3:  # Delete member
-                        memberID = int(input("Please enter the member ID: "))
-                        emp.delete_member(memberID)
-                    case 4:  # Add provider
-                        if isManager:
-                            emp.add_provider()
-                        else:
+                if not isManager:
+                    numOptions = 6
+                    print("1. View all members (can be large!)")
+                    print("2. Add member")
+                    print("3. Edit member")
+                    print("4. Delete member")
+                    print("5. Save all data to files")
+                    print("6. Exit to main terminal")
+                    userInput = getInputNumberSafe(numOptions)
+                    match userInput:
+                        case 1:  # View all members
+                            self.fileSystem.print_all_members()
+                        case 2:  # Add member
+                            emp.add_member()
+                        case 3:  # Edit member
+                            emp.edit_member()
+                        case 4:  # Delete member
+                            memberID = int(input("Please enter the member ID: "))
+                            emp.delete_member(memberID)
+                        case 5:  # Save changes
                             self.fileSystem.save_dirs()
-                    case 5:  # Edit provider
-                        if isManager:
-                            emp.edit_provider()
-                        else:
+                            print("All files saved!\n")
+                        case 6:  # Exit terminal
                             return
-                    case 6:  # Delete provider
-                        if isManager:
+                        case _:  # Invalid option
+                            print("ERROR!!!")
+
+                elif isManager:
+                    numOptions = 11
+                    print("1. View all members (can be large!)")
+                    print("2. Add member")
+                    print("3. Edit member")
+                    print("4. Delete member")
+                    print("5. View all providers (can be large!)")
+                    print("6. Add provider")
+                    print("7. Edit provider")
+                    print("8. Delete provider")
+                    print("9. Request report")
+                    print("10. Save all data to files")
+                    print("11. Exit to main terminal")
+                    userInput = getInputNumberSafe(numOptions)
+                    match userInput:
+                        case 1:  # View all members
+                            self.fileSystem.print_all_members()
+                        case 2:  # Add member
+                            emp.add_member()
+                        case 3:  # Edit member
+                            emp.edit_member()
+                        case 4:  # Delete member
+                            memberID = int(input("Please enter the member ID: "))
+                            emp.delete_member(memberID)
+                        case 5:  # View all providers
+                            self.fileSystem.print_all_providers()
+                        case 6:  # Add provider
+                            emp.add_provider()
+                        case 7:  # Edit provider
+                            emp.edit_provider()
+                        case 8:  # Delete provider
                             providerID = int(
                                 input("Please enter the member ID: "))
                             emp.delete_provider(providerID)
-                        else:
-                            print("ERROR!!!")
-                            continue
-                    case 7:  # Request manager report
-                        if isManager:
+                        case 9:  # Request manager report
                             print(self.fileSystem.get_manager_report_as_string())
-                        else:
-                            print("ERROR!!!")
-                            continue
-                    case 8:  # Save changes
-                        if isManager:
+                        case 10:  # Save changes
                             self.fileSystem.save_dirs()
-                            print("saved!")
-                        else:
-                            print("ERROR!!!")
-                            continue
-                    case 9:  # Exit terminal
-                        if isManager:
+                            print("All files saved!\n")
+                        case 11:  # Exit terminal
                             return
-                        else:
+                        case _:  # Invalid option
                             print("ERROR!!!")
-                            continue
-
-                    case _:  # Invalid option
-                        print("ERROR!!!")
+                else:
+                    print("ERROR!!!")
+                    return
 
             else:  # user is a provider
                 # call provider terminal
