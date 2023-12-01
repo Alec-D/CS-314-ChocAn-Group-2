@@ -3,21 +3,43 @@ from service import Service
 from member import Member
 from provider import Provider
 from datetime import datetime
+from utility_functions import *
 
 
 class ProviderTerminal():
 
-    def __init__(self, providerID, service_name, service_number, service_date, comments, memberID,fee, fileSystem = FileSystem):
-        self.member = None
-        #example - self.service_number = service_number.service_code 
-        self.service_name = service_name
-        self.service_number = 0
-        self.service_date = None
-        self.fileSystem = fileSystem
-        self.comments = None
-        self.providerID = providerID
-        self.memberID = memberID
-        self.fee = fee
+    def __init__(self, file_system: FileSystem, id: int, provider: Provider):
+        self.file_system = file_system
+        self.id = id
+        self.provider = provider
+        # self.member = None
+        # example - self.service_number = service_number.service_code 
+        # self.service_name = service_name
+        # self.service_number = 0
+        # self.service_date = None
+        # self.fileSystem = fileSystem
+        # self.comments = None
+        # self.providerID = providerID
+        # self.memberID = memberID
+        # self.fee = fee
+
+
+    def get_member_status(self) -> str:
+        print("Enter the member's ID: ")
+        member_id = getInputNumberSafe(999999999)
+        member = self.file_system.get_member_by_id(member_id)
+        if member is None:
+            print("***Invalid Number***\n")
+            return "invalid"
+        elif member.is_suspended:
+            print("***Member suspended***\n")
+            print(f"Reason: {member.first_name} has not paid "
+                  "membership fees for at least a month")
+            return "suspended"
+        else:
+            print("***validated***\n")
+            return "valid"
+
 
     def generateReport(self, date, memberID, serviceCode):
         print(f"Current date and time: {date.strftime('%m-%d-%Y %H:%M:%S')}")
@@ -28,6 +50,7 @@ class ProviderTerminal():
         print(f"Service code: {serviceCode}")
         if (self.comments is not None):
             print(f"Comments: {self.comments}")
+
 
     def run(self):
         print("Provider Terminal Reached")
@@ -76,6 +99,7 @@ class ProviderTerminal():
         self.generateReport(today, memberID, 0)
         # Examples for runs, providerID: 263034389, memberID: 182191072
 
+
     # def get_service(self): adrian
     # get the info about the service
     def get_service(self):
@@ -93,7 +117,7 @@ class ProviderTerminal():
 
             name = self.fileSystem.get_service_name_by_code(number)
             while True:
-                print(f"Since you entered{number} This means you're requesting
+                print(f"Since you entered{number} This means you're requesting \
                       {name}")
                 
                 if name is None:
@@ -101,5 +125,3 @@ class ProviderTerminal():
 
                 else:
                     print(f"Entry is valid")
-
-    
