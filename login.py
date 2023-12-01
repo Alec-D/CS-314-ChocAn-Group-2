@@ -150,9 +150,9 @@ class User:
                     case 1:
                         provider_terminal.get_member_status()
                     case 2:
-                        pass
+                        provider_terminal.get_service_directory()
                     case 3:
-                        pass
+                        provider_terminal.record_service()
                     case 4:  # Exit terminal
                         return
                     case _:  # Invalid option
