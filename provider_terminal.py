@@ -47,8 +47,10 @@ class ProviderTerminal():
         while True:
             self.service_date = input("Please enter the date of service in the format: MM-DD-YYYY\n--> ")
             try:
-                datetime.datetime.strptime(self.service_date, "%m-%d-%Y")
-                break
+                date = datetime.datetime.strptime(self.service_date, "%m-%d-%Y")
+                if date.year >= 1900 and date.year <= 3000:
+                    break
+                print("Incorrect date format!\n")
             except:
                 print("Incorrect date format!\n")
 
