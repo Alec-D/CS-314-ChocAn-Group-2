@@ -88,7 +88,7 @@ class ProviderTerminal():
             comments = input("Please enter your comments here (up to 100 characters): ")
         return comments
 
-
+"""
     def generateReport(self, date, memberID, serviceCode):
         print(f"Current date and time: {date.strftime('%m-%d-%Y %H:%M:%S')}")
         print(
@@ -144,3 +144,4 @@ class ProviderTerminal():
 
                 else:
                     print(f"Entry is valid")
+"""
