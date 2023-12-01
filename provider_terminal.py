@@ -1,10 +1,9 @@
 from file_system import FileSystem
 from service import Service
-from member import Member
 from provider import Provider
 from datetime import datetime
 from utility_functions import *
-
+import datetime
 
 class ProviderTerminal():
 
@@ -45,8 +44,14 @@ class ProviderTerminal():
         status = self.get_member_status()
         if status is not "valid":
             return
-        self.service_date = input("Please enter the date of service in the format: "
-                             "MM-DD-YYYY\n--> ")
+        while True:
+            self.service_date = input("Please enter the date of service in the format: MM-DD-YYYY\n--> ")
+            try:
+                datetime.datetime.strptime(self.service_date, "%m-%d-%Y")
+                break
+            except:
+                print("Incorrect date format!\n")
+
         self.get_service_directory()
         print("Please enter the six-digit service code for the service provided:")
         self.service_code = getInputNumberSafe(999999)
@@ -68,10 +73,10 @@ class ProviderTerminal():
             case 1:
                 self.comments = self._get_comments()
             case 2:
-                self.comments = ""
+                self.comments = "None"
             case _:
                 print("ERROR!")
-        self.fee = self.file_system.get_fee_by_code(self.service_code)
+        self.service_fee = self.file_system.get_fee_by_code(self.service_code)
         self._document_service()
 
 
