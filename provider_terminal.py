@@ -12,16 +12,12 @@ class ProviderTerminal():
         self.file_system = file_system
         self.id = id
         self.provider = provider
-        # self.member = None
-        # example - self.service_number = service_number.service_code 
-        # self.service_name = service_name
-        # self.service_number = 0
-        # self.service_date = None
-        # self.fileSystem = fileSystem
-        # self.comments = None
-        # self.providerID = providerID
-        # self.memberID = memberID
-        # self.fee = fee
+        self.member = None
+        self.service_date = None
+        self.service_code = None
+        self.service_name = None
+        self.comments = None
+        self.service_fee = None
 
 
     def get_member_status(self) -> str:
@@ -49,16 +45,16 @@ class ProviderTerminal():
         status = self.get_member_status()
         if status is not "valid":
             return
-        service_date = input("Please enter the date of service in the format: "
-              "MM-DD-YYYY\n--> ")
+        self.service_date = input("Please enter the date of service in the format: "
+                             "MM-DD-YYYY\n--> ")
         self.get_service_directory()
         print("Please enter the six-digit service code for the service provided:")
-        service_code = getInputNumberSafe(999999)
-        service_name = self.file_system.get_service_name_by_code(service_code)
-        if service_name is None:
+        self.service_code = getInputNumberSafe(999999)
+        self.service_name = self.file_system.get_service_name_by_code(self.service_code)
+        if self.service_name is None:
             print("Invalid service code!")
             return
-        print(f"Service selected: {service_name}")
+        print(f"Service selected: {self.service_name}")
         print("Is this correct? 1 = Yes  2 = No")
         match getInputNumberSafe(2):
             case 1:
@@ -70,14 +66,27 @@ class ProviderTerminal():
         print("Would you like to enter comments about the service? 1 = Yes  2 = No")
         match getInputNumberSafe(2):
             case 1:
-                self.comments = self.get_comments()
+                self.comments = self._get_comments()
             case 2:
                 self.comments = ""
             case _:
                 print("ERROR!")
+        self.fee = self.file_system.get_fee_by_code(self.service_code)
+        self._document_service()
 
 
-    def get_comments(self) -> str:
+    def _document_service(self):
+        service = Service(self.service_date, self.provider, self.member, self.service_code,
+                          self.service_name, self.comments, self.service_fee)
+        self.file_system.document_service(service)
+
+
+    def _get_comments(self) -> str:
+        comments = input("Please enter your comments here (up to 100 characters): ")
+        while len(comments) > 100:
+            print("You exceeded the 100 character limit. Please try again.")
+            comments = input("Please enter your comments here (up to 100 characters): ")
+        return comments
 
 
     def generateReport(self, date, memberID, serviceCode):
@@ -105,15 +114,6 @@ class ProviderTerminal():
                 break
             except ValueError:
                 print("Invalid input try again")
-
-        if (userIn == 1):
-            self.comments = input(
-                "Please enter your comments here (up to 100 characters): ")
-            while (len(self.comments) > 100):
-                print("You exceeded the 100 character limit. Please try again.")
-                print(f"Here is what you wrote previously: {self.comments}")
-                self.comments = input(
-                    "Please enter your comments here (up to 100 characters): ")
 
         self.generateReport(today, memberID, 0)
         # Examples for runs, providerID: 263034389, memberID: 182191072
