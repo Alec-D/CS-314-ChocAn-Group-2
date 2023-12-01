@@ -127,9 +127,7 @@ class Member:
             self.edit_member()
 
     def check_status(self):
-        status = self.is_suspended
-        return status
-    
+        return self.is_suspended
+
     def get_id(self):
         return self.id
-    
