@@ -158,11 +158,12 @@ def test_document_service(file_system, new_service, new_member, new_provider, ye
     assert df[df["member_id"] == 123456780].iloc[0]["service_code"] == 123456
     assert df[df["member_id"] == 123456780].iloc[0]["fee"] == 200.00
 
+
 def test_get_member_report_as_string(file_system, new_member, new_provider, new_service, yesterday):
     file_system.add_member(new_member)
     file_system.add_provider(new_provider)
     file_system.document_service(new_service)
-    report = file_system.get_member_report_as_string(new_service.member_id)
+    report = file_system.get_member_report_as_string(new_service.member_id, save_to_file=False)
     assert report == f"Name: Steve Patient\nMember ID: 123456780\nStreet: 1234 Test St\nCity: Test City\nState: FA\nZipcode: 12345\n\tDOS: {yesterday}\n\tProvider Name: Steve Provider\n\tService: splinting\n\n"
 
 
@@ -172,7 +173,7 @@ def test_get_provider_report_as_string(file_system, new_member, new_provider, ne
     file_system.document_service(new_service)
     current_time = datetime.datetime.now().strftime("%H:%M:%S")
     current_date = datetime.date.today().strftime("%m-%d-%Y")
-    report = file_system.get_provider_report_as_string(new_service.provider_id)
+    report = file_system.get_provider_report_as_string(new_service.provider_id, save_to_file=False)
     assert report == (f'Name: Steve Provider\n'
                       f'Provider ID: 123456789\n'
                       f'Street: 1234 Test St\n'
@@ -189,6 +190,8 @@ def test_get_provider_report_as_string(file_system, new_member, new_provider, ne
                              f'\n'
                       f'Total Consultations: 1\n'
                       f'Total Fees: 200.0\n')
+
+
 def test_update_member(file_system, new_member):
     file_system.add_member(new_member)
     new_member.first_name = "Bob"
@@ -212,8 +215,10 @@ def test_is_manager(file_system):
     assert file_system.is_manager(831130215) == True
     assert file_system.is_manager(831130216) == False
 
+
 def test_get_maximum_member_id(file_system):
     assert file_system.get_maximum_member_id() == 971447942
+
 
 def test_document_service_from_more_than_7_days_ago(file_system, service_from_more_than_7_days_ago):
     file_system.document_service(service_from_more_than_7_days_ago)
