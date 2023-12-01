@@ -90,7 +90,7 @@ class FileSystem:
     def _load_all_services_df(self) -> None:
         try:
             self._all_services_df = pd.read_csv(
-                "summary_reports/all_services.csv", parse_dates=["date_of_service"])
+                "summary_reports/all_services.csv")
         except FileNotFoundError:
             self._all_services_df = pd.DataFrame(columns=["current_date",
                                                           "current_time",
