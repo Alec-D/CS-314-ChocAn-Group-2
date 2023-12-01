@@ -1,5 +1,6 @@
 from file_system import FileSystem
 from employee import Employee
+from provider_terminal import ProviderTerminal
 from utility_functions import *
 # from provider_terminal import ProviderTerminal
 
@@ -144,9 +145,10 @@ class User:
                 print("3. Record service provided")
                 print("4. Exit to main terminal")
                 userInput = getInputNumberSafe(numOptions)
+                provider_terminal = ProviderTerminal(self.fileSystem, self.id, self.provider)
                 match userInput:
                     case 1:
-                        pass
+                        provider_terminal.get_member_status()
                     case 2:
                         pass
                     case 3:
