@@ -552,7 +552,7 @@ class FileSystem:
 
         return service.iloc[0]["fee"]
 
-    def document_service(self, service: Service) -> None:
+    def document_service(self, service: Service, save_to_file: bool = True) -> None:
         """
         Adds a service to the all services dataframe. This is used to generate the various reports of the chocAn
         system. This does not check for duplicate services, so it is up to the user to ensure that the service is not
@@ -571,6 +571,9 @@ class FileSystem:
 
         self._all_services_df.loc[len(
             self._all_services_df.index)] = list(service)
+
+        if save_to_file:
+            self._save_all_services_df()
 
     def get_member_report_as_string(self, mem_id: int | str, save_to_file: bool = True) -> str | None:
         """
