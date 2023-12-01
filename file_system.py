@@ -107,9 +107,8 @@ class FileSystem:
         try:
             self._service_directory_df = pd.read_csv(self._service_directory)
         except FileNotFoundError:
-            # create a new df
             self._service_directory_df = pd.DataFrame(
-                columns=["date", "member_id", "provider_id", "service_code", "comments"])
+                columns=["service_code", "service_name", "fee"])
 
     def _save_service_df(self) -> None:
         self._service_directory_df.to_csv(self._service_directory, index=False)
