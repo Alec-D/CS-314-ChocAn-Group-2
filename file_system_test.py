@@ -13,9 +13,14 @@ from service import Service
 def file_system():
     return FileSystem("member_data.csv", "provider_data.csv", "service_dir.csv", "employee_data.csv")
 
+
 @pytest.fixture
-def service_from_more_than_7_days_ago(file_system):
-    return Service((datetime.date.today() - datetime.timedelta(days=8)).strftime("%m-%d-%Y"), file_system.get_provider_by_name("Zanini"), file_system.get_member_by_name("Addekin"), 123456, "splinting", "I splinted his arm", 200.00)
+def extra_member(file_system):
+    return Member("Steve", "Patient2", 666666666, "1234 Test St", "Test City", "FA", 12345, False)
+
+@pytest.fixture
+def service_from_more_than_7_days_ago(file_system, extra_member, new_provider):
+    return Service((datetime.date.today() - datetime.timedelta(days=8)).strftime("%m-%d-%Y"), new_provider, extra_member, 123456, "splinting", "I splinted his arm", 200.00)
 @pytest.fixture
 def empty_file_system():
     return FileSystem("empty_member_data.csv", "empty_provider_data.csv", "empty_service_dir.csv", "empty_employee_data.csv")
@@ -220,8 +225,10 @@ def test_get_maximum_member_id(file_system):
     assert file_system.get_maximum_member_id() == 971447942
 
 
-def test_document_service_from_more_than_7_days_ago(file_system, service_from_more_than_7_days_ago, save_to_file=False):
-    file_system.document_service(service_from_more_than_7_days_ago)
+def test_document_service_from_more_than_7_days_ago(file_system, service_from_more_than_7_days_ago, new_member, new_provider, save_to_file=False):
+    file_system.add_member(new_member)
+    file_system.add_provider(new_provider)
+    file_system.document_service(service_from_more_than_7_days_ago, save_to_file=False)
     df = file_system._all_services_df
     assert len(df.index) != 0
     member_df = file_system._get_member_report_info(service_from_more_than_7_days_ago.member_id)
