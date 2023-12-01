@@ -756,7 +756,7 @@ class FileSystem:
 
         return self._provider_df["id"].max()
 
-    def get_service_directory_as_string(self) -> str | None:
+    def get_service_directory_as_string(self, save_to_file: bool = True) -> str | None:
         """
         Returns a string containing the service directory formatted as required by the project description.
 
@@ -770,6 +770,10 @@ class FileSystem:
             service_str += f"Service Code: {row['service_code']}\n"
             service_str += f"Service Name: {row['service_name']}\n"
             service_str += f"Fee: {row['fee']}\n\n"
+
+        if save_to_file:
+            self._save_service_df()
+
         return service_str
 
     def save_dirs(self) -> None:
