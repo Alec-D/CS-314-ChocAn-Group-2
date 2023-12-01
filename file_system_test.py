@@ -126,7 +126,7 @@ def test_remove_provider(file_system, new_provider):
 def test_document_service(file_system, new_service, new_member, new_provider, yesterday):
     file_system.add_member(new_member)
     file_system.add_provider(new_provider)
-    file_system.document_service(new_service)
+    file_system.document_service(new_service, save_to_file=False)
 
     df = file_system._all_services_df
     assert len(df.index) > 0
@@ -162,7 +162,7 @@ def test_document_service(file_system, new_service, new_member, new_provider, ye
 def test_get_member_report_as_string(file_system, new_member, new_provider, new_service, yesterday):
     file_system.add_member(new_member)
     file_system.add_provider(new_provider)
-    file_system.document_service(new_service)
+    file_system.document_service(new_service, save_to_file=False)
     report = file_system.get_member_report_as_string(new_service.member_id, save_to_file=False)
     assert report == f"Name: Steve Patient\nMember ID: 123456780\nStreet: 1234 Test St\nCity: Test City\nState: FA\nZipcode: 12345\n\tDOS: {yesterday}\n\tProvider Name: Steve Provider\n\tService: splinting\n\n"
 
@@ -170,7 +170,7 @@ def test_get_member_report_as_string(file_system, new_member, new_provider, new_
 def test_get_provider_report_as_string(file_system, new_member, new_provider, new_service, yesterday):
     file_system.add_member(new_member)
     file_system.add_provider(new_provider)
-    file_system.document_service(new_service)
+    file_system.document_service(new_service, save_to_file=False)
     current_time = datetime.datetime.now().strftime("%H:%M:%S")
     current_date = datetime.date.today().strftime("%m-%d-%Y")
     report = file_system.get_provider_report_as_string(new_service.provider_id, save_to_file=False)
@@ -220,7 +220,7 @@ def test_get_maximum_member_id(file_system):
     assert file_system.get_maximum_member_id() == 971447942
 
 
-def test_document_service_from_more_than_7_days_ago(file_system, service_from_more_than_7_days_ago):
+def test_document_service_from_more_than_7_days_ago(file_system, service_from_more_than_7_days_ago, save_to_file=False):
     file_system.document_service(service_from_more_than_7_days_ago)
     df = file_system._all_services_df
     assert len(df.index) != 0
