@@ -27,18 +27,57 @@ class ProviderTerminal():
     def get_member_status(self) -> str:
         print("Enter the member's ID: ")
         member_id = getInputNumberSafe(999999999)
-        member = self.file_system.get_member_by_id(member_id)
-        if member is None:
+        self.member = self.file_system.get_member_by_id(member_id)
+        if self.member is None:
             print("***Invalid Number***\n")
             return "invalid"
-        elif member.is_suspended:
-            print("***Member suspended***\n")
-            print(f"Reason: {member.first_name} has not paid "
-                  "membership fees for at least a month")
+        elif self.member.is_suspended:
+            print("***Member suspended***")
+            print(f"Reason: {self.member.first_name} {self.member.last_name} has not paid "
+                  "membership fees for at least a month\n")
             return "suspended"
         else:
             print("***validated***\n")
             return "valid"
+
+
+    def get_service_directory(self) -> None:
+        print(self.file_system.get_service_directory_as_string())
+
+
+    def record_service(self) -> None:
+        status = self.get_member_status()
+        if status is not "valid":
+            return
+        service_date = input("Please enter the date of service in the format: "
+              "MM-DD-YYYY\n--> ")
+        self.get_service_directory()
+        print("Please enter the six-digit service code for the service provided:")
+        service_code = getInputNumberSafe(999999)
+        service_name = self.file_system.get_service_name_by_code(service_code)
+        if service_name is None:
+            print("Invalid service code!")
+            return
+        print(f"Service selected: {service_name}")
+        print("Is this correct? 1 = Yes  2 = No")
+        match getInputNumberSafe(2):
+            case 1:
+                pass
+            case 2:
+                return
+            case _:
+                print("ERROR!")
+        print("Would you like to enter comments about the service? 1 = Yes  2 = No")
+        match getInputNumberSafe(2):
+            case 1:
+                self.comments = self.get_comments()
+            case 2:
+                self.comments = ""
+            case _:
+                print("ERROR!")
+
+
+    def get_comments(self) -> str:
 
 
     def generateReport(self, date, memberID, serviceCode):
@@ -53,26 +92,6 @@ class ProviderTerminal():
 
 
     def run(self):
-        print("Provider Terminal Reached")
-        while True:
-            try:
-                memberID = int(input("Enter the member's ID: "))
-                break
-            except ValueError:
-                print("Invalid input")
-
-        self.member = self.fileSystem.get_member_by_id(memberID)
-
-        if (self.member is None):
-            print("Invalid member ID.")
-            exit()
-        elif (self.member.is_suspended):
-            print("Member has been suspended.")
-            print(
-                f"Reason: {self.member.first_name} has not paid membership fees for at least a month")
-            exit()
-
-        print("Validated")
         today = datetime.now()
 
         # call get service function
