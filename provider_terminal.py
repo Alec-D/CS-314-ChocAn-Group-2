@@ -42,7 +42,7 @@ class ProviderTerminal():
 
     def record_service(self) -> None:
         status = self.get_member_status()
-        if status is not "valid":
+        if status != "valid":
             return
         while True:
             self.service_date = input("Please enter the date of service in the format: MM-DD-YYYY\n--> ")

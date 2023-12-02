@@ -12,27 +12,6 @@ def main():
     file_system = FileSystem("member_data.csv", "provider_data.csv",
                              "service_dir.csv", "employee_data.csv")
 
-    tmp_mem = file_system.get_member_by_name("Addekin")
-    tmp_prov = file_system.get_provider_by_name("Zanini")
-    tmp_serv = Service("11-28-2023", tmp_prov, tmp_mem, 123456,
-                       "splinting", "I splinted his arm", 200.00)
-    tmp_serv2 = Service("11-28-2020", tmp_prov, tmp_mem, 123456,
-                       "splinting", "I splinted his arm", 200.00)
-    file_system.document_service(tmp_serv)
-    file_system.document_service(tmp_serv2)
-
-    print("***Member Report***\n")
-    print(file_system.get_member_report_as_string(tmp_mem.id))
-    print("***Provider Report***\n")
-    print(file_system.get_provider_report_as_string(tmp_prov.id))
-    print("\n***ETF Report***\n")
-    print(file_system.get_etf_report_as_string(tmp_prov.id))
-    print("\n***Summary Report***\n")
-    print(file_system.get_manager_report_as_string())
-    # print("Service Directory")
-    print("***",end="")
-    print(file_system.get_service_directory_as_string())
-
     newUser = User(file_system)
     newUser.loginUI()
 
